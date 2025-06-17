@@ -1,0 +1,417 @@
+# Question5
+
+This folder contains Code, Data, and Results for this question.
+
+Edit this README to explain your logic and contributions.
+
+
+```{r}
+# Install pacman if not installed
+if (!require("pacman")) install.packages("pacman")
+
+library(dplyr)
+library(ggplot2)
+
+
+# Load pacman and then load/install tidyverse
+pacman::p_load(tidyverse)
+
+# Load data assuming working directory is set correctly
+Health <- read_csv("Data/HealthCare.csv")
+
+glimpse(Health)
+
+```
+
+```{r}
+#Create a kabble table using the dictionaryyyy
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(kableExtra, dplyr)
+library(kableExtra)
+library(dplyr)
+
+library(kableExtra)
+library(dplyr)
+
+data_dict <- tribble(
+  ~Variable, ~Description,
+  "Participant ID", "Unique identifier for each participant in the study.",
+  "Age", "The age of the participant (in years), which can influence metabolism and weight change.",
+  "Gender", "Gender of the participant (M/F), as physiological differences may affect weight management.",
+  "Current Weight (lbs)", "The participant's weight at the beginning of the study, serving as a baseline for weight change.",
+  "BMR (Calories)", "Basal Metabolic Rate, calculated using the Mifflin-St Jeor equation, representing the number of calories burned at rest.",
+  "Daily Calories Consumed", "Total caloric intake per day, including variability to reflect real-world eating habits.",
+  "Daily Caloric Surplus/Deficit", "The difference between calories consumed and BMR, indicating whether the participant is in a caloric surplus or deficit.",
+  "Weight Change (lbs)", "The estimated change in weight over a specified duration, based on caloric surplus/deficit.",
+  "Duration (weeks)", "The time period over which weight change is measured, ranging from 1 to 12 weeks.",
+  "Physical Activity Level", "Self-reported level of physical activity, categorized as Sedentary, Lightly Active, Moderately Active, or Very Active.",
+  "Macronutrient Breakdown", "Composition of the participant's diet, expressed as percentages of carbohydrates, proteins, and fats.",
+  "Sleep Quality", "Self-reported quality of sleep, categorized as Poor, Fair, Good, or Excellent, which can affect weight management.",
+  "Stress Level", "A numerical score (1-10) indicating the participant's perceived stress level, as stress can influence eating behaviors and weight."
+)
+
+data_dict %>%
+  kable(booktabs = TRUE,
+        caption = "Table 1: Data Dictionary - Data Information",
+        col.names = c("Variable", "Description"),
+        align = c("l", "l")) %>%    # Just left align both columns
+  kable_styling(latex_options = c("hold_position", "striped"), font_size = 10)
+
+```
+
+```{r}
+# Load necessary packages using pacman
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(tidyverse, skimr, GGally, kableExtra)
+
+# 1. Data structure and missingness
+skimr::skim(Health)
+
+# 2. Check distributions and variable types (summary)
+summary(Health)
+
+# 3. Frequency tables for categorical variables
+Health %>%
+  select(Gender, `Physical Activity Level`, `Sleep Quality`) %>%
+  summarise_all(~ list(table(.)))
+
+```
+
+```{r}
+
+# 1. Age distribution summary and plot
+age_summary <- Health %>%
+  summarise(
+    count = n(),
+    min_age = min(`Age`, na.rm = TRUE),
+    max_age = max(`Age`, na.rm = TRUE),
+    mean_age = mean(`Age`, na.rm = TRUE),
+    median_age = median(`Age`, na.rm = TRUE),
+    age_sd = sd(`Age`, na.rm = TRUE)
+  )
+
+print("Age Distribution Summary:")
+print(age_summary)
+
+age_plot <- Health %>%
+  ggplot(aes(x = `Age`)) + 
+  geom_histogram(binwidth = 5, fill = "skyblue", color = "black") +
+  labs(title = "Age Distribution", x = "Age (years)", y = "Count") +
+  theme_minimal()
+
+print(age_plot)
+
+# 2. Gender distribution
+gender_dist <- Health %>%
+  count(`Gender`) %>%
+  mutate(percent = n / sum(n) * 100)
+
+print("Gender Distribution:")
+print(gender_dist)
+
+library(dplyr)
+
+# Step 1: Add age_group to the Health dataset
+Health <- Health %>%
+  mutate(age_group = case_when(
+    Age < 20 ~ "Teenagers (<20)",
+    Age >= 20 & Age < 30 ~ "Adults (20-29)",
+    Age >= 30 & Age < 40 ~ "Early Career (30-39)",
+    Age >= 40 & Age < 50 ~ "Middle-aged (40-49)",
+    Age >= 50 & Age < 65 ~ "Preretirement (50-64)",
+    Age >= 65 ~ "Seniors (65+)",
+    TRUE ~ NA_character_
+  ))
+
+# Step 2: Summary of weight change by gender and age group
+gender_age_weight_change <- Health %>%
+  group_by(Gender, age_group) %>%
+  summarise(
+    mean_weight_change = mean(`Weight Change (lbs)`, na.rm = TRUE),
+    median_weight_change = median(`Weight Change (lbs)`, na.rm = TRUE),
+    n = n(),
+    .groups = 'drop'
+  )
+
+# Print result
+print("Weight Change by Gender and Age Group:")
+print(gender_age_weight_change)
+
+
+# 4. Duration summary and unrealistic weight change rate
+duration_summary <- Health %>%
+  summarise(
+    min_duration = min(`Duration (weeks)`, na.rm = TRUE),
+    max_duration = max(`Duration (weeks)`, na.rm = TRUE),
+    median_duration = median(`Duration (weeks)`, na.rm = TRUE)
+  )
+
+print("Duration (weeks) Summary:")
+print(duration_summary)
+
+weight_change_rate_df <- Health %>%
+  mutate(rate_weight_change = `Weight Change (lbs)` / `Duration (weeks)`) %>%
+  mutate(unrealistic_change = abs(rate_weight_change) > 2)
+
+unrealistic_count <- weight_change_rate_df %>%
+  filter(unrealistic_change) %>%
+  nrow()
+
+print(paste("Number of unrealistic weight change rates (>2 lbs/week):", unrealistic_count))
+
+# 5. Calories summary and by physical activity
+cal_summary <- Health %>%
+  summarise(
+    mean_calories = mean(`Daily Calories Consumed`, na.rm = TRUE),
+    median_calories = median(`Daily Calories Consumed`, na.rm = TRUE),
+    mean_surplus_deficit = mean(`Daily Caloric Surplus/Deficit`, na.rm = TRUE),
+    median_surplus_deficit = median(`Daily Caloric Surplus/Deficit`, na.rm = TRUE)
+  )
+
+print("Calories and Surplus/Deficit Summary:")
+print(cal_summary)
+
+cal_activity_summary <- Health %>%
+  group_by(`Physical Activity Level`) %>%
+  summarise(
+    mean_surplus_deficit = mean(`Daily Caloric Surplus/Deficit`, na.rm = TRUE),
+    count = n()
+  )
+
+print("Caloric Surplus/Deficit by Physical Activity Level:")
+print(cal_activity_summary)
+
+# 6. Sleep quality distribution by age group and weight change 
+sleep_dist <- Health %>%
+  count(`Sleep Quality`) %>%
+  mutate(percent = n / sum(n) * 100)
+
+print("Sleep Quality Distribution:")
+print(sleep_dist)
+
+# 7. Caloric surplus/deficit categories (How did we get the 200 code should be check deficit/surplus against calories and weight change )
+cal_cat_df <- Health %>%
+  mutate(
+    cal_balance_cat = case_when(
+      `Daily Caloric Surplus/Deficit` > 200 ~ "Surplus >200",
+      `Daily Caloric Surplus/Deficit` < -200 ~ "Deficit >200",
+      TRUE ~ "Within ±200"
+    )
+  )
+
+cal_cat_summary <- cal_cat_df %>%
+  count(cal_balance_cat) %>%
+  mutate(percent = n / sum(n) * 100)
+
+print("Caloric Surplus/Deficit Categories Distribution:")
+print(cal_cat_summary)
+
+# 8. Weight change rate summary
+weight_change_rate_summary <- Health %>%
+  mutate(rate_weight_change = `Weight Change (lbs)` / `Duration (weeks)`) %>%
+  summarise(
+    mean_rate = mean(rate_weight_change, na.rm = TRUE),
+    median_rate = median(rate_weight_change, na.rm = TRUE),
+    max_rate = max(rate_weight_change, na.rm = TRUE),
+    min_rate = min(rate_weight_change, na.rm = TRUE)
+  )
+
+print("Weight Change Rate Summary (lbs/week):")
+print(weight_change_rate_summary)
+
+# 9. Weight change rate summary
+stress_level_summary  <- Health %>%
+  summarise(
+    mean_rate = mean(`Stress Level`, na.rm = TRUE),
+    median_rate = median(`Stress Level`, na.rm = TRUE),
+    max_rate = max(`Stress Level`, na.rm = TRUE),
+    min_rate = min(`Stress Level`, na.rm = TRUE)
+  )
+
+print(stress_level_summary)
+
+# 9. Final Weight summary
+final_weight_summary <- Health %>%
+  summarise(
+    mean_final_weight = mean(`Final Weight (lbs)`, na.rm = TRUE),
+    median_final_weight = median(`Final Weight (lbs)`, na.rm = TRUE),
+    max_final_weight = max(`Final Weight (lbs)`, na.rm = TRUE),
+    min_final_weight = min(`Final Weight (lbs)`, na.rm = TRUE)
+  )
+
+print(final_weight_summary)
+
+
+
+
+```
+
+```{r}
+
+# Group by Gender, Age Group, Sleep Quality, and Stress Level
+grouped_summary <- Health %>%
+  group_by(Gender, age_group, `Sleep Quality`, `Stress Level`) %>%
+  summarise(
+    n = n(),
+    mean_final_weight = mean(`Final Weight (lbs)`, na.rm = TRUE),
+    median_final_weight = median(`Final Weight (lbs)`, na.rm = TRUE),
+    sd_final_weight = sd(`Final Weight (lbs)`, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  arrange(Gender, age_group, `Sleep Quality`, `Stress Level`)
+
+# View the result
+print(grouped_summary)
+
+```
+
+```{r}
+
+# Summarize key metrics by group
+summary_table <- Health %>%
+  group_by(Gender, age_group, `Sleep Quality`, `Physical Activity Level`) %>%
+  summarise(
+    n = n(),
+    avg_surplus = mean(`Daily Caloric Surplus/Deficit`, na.rm = TRUE),
+    avg_weight_change = mean(`Weight Change (lbs)`, na.rm = TRUE),
+    avg_final_weight = mean(`Final Weight (lbs)`, na.rm = TRUE),
+    .groups = 'drop'
+  ) %>%
+  arrange(desc(avg_surplus))
+
+print(summary_table)
+
+```
+
+
+```{r}
+
+Health <- Health |>
+  mutate(
+    `High Stress Risk` = ifelse(`Stress Level` >= 7, "Yes", "No"),
+    `Poor Sleep Risk` = ifelse(`Sleep Quality` %in% c("Poor", "Fair"), "Yes", "No"),
+    `Weight Change Risk` = ifelse(
+      (`Weight Change (lbs)` > 5 & `Daily Caloric Surplus/Deficit` > 300) |
+      (`Weight Change (lbs)` < -5 & `Daily Caloric Surplus/Deficit` < -500),
+      "Yes", "No"
+    ),
+    `Sedentary Lifestyle` = ifelse(`Physical Activity Level` == "Sedentary", "Yes", "No")
+  )%>%
+  
+
+```
+
+
+1. Does high stress cancel out the effects of good sleep ? 
+
+```{r}
+
+
+Health <- Health %>%
+  mutate(
+    stress_group = ifelse(`Stress Level` >= 7, "High Stress", "Low Stress"),
+    sleep_group = ifelse(`Sleep Quality` %in% c("Poor", "Fair"), "Poor Sleep", "Good Sleep"),
+    combined_group = paste(sleep_group, stress_group, sep = " + ")
+  )
+
+# Summary of weight change by combined group, adjusting for physical activity and age group
+summary_tbl <- Health %>%
+  group_by(combined_group, `Physical Activity Level`, age_group) %>%
+  summarise(
+    mean_weight_change = mean(`Weight Change (lbs)`, na.rm = TRUE),
+    n = n(),
+    .groups = "drop"
+  )
+
+print(summary_tbl)
+
+
+```
+
+```{r}
+
+# Prepare data
+Health <- Health %>%
+  mutate(
+    stress_risk = factor(ifelse(`Stress Level` >= 7, "High Stress", "Low Stress")),
+    sleep_risk = factor(ifelse(`Sleep Quality` %in% c("Poor", "Fair"), "Poor Sleep", "Good Sleep")),
+    combined_group = interaction(sleep_risk, stress_risk),
+    physical_activity = factor(`Physical Activity Level`),
+    age_group = factor(age_group)
+  )
+
+# Regression: Weight Change ~ Sleep + Stress + Sleep:Stress + Controls
+regression_model <- lm(`Weight Change (lbs)` ~ sleep_risk * stress_risk + physical_activity + age_group, data = Health)
+summary(regression_model)
+
+# Boxplot of weight change by combined group and sedentary life to just seperate those who are at least activity
+ggplot(Health, aes(x = combined_group, y = `Weight Change (lbs)`, fill = combined_group)) +
+  geom_boxplot(outlier.shape = NA) +  # hide default outliers
+  geom_jitter(aes(color = `Sedentary Lifestyle`), width = 0.2, alpha = 0.6) +
+  labs(
+    title = "Weight Change by Sleep and Stress Groups,\nWith Points Colored by Sedentary Lifestyle",
+    x = "Sleep and Stress Group",
+    y = "Weight Change (lbs)",
+    color = "Sedentary Lifestyle"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "right")
+
+
+```
+
+
+
+
+```{r}
+# Fit the full model with interaction and all controls
+model_full <- lm(`Weight Change (lbs)` ~ 
+                   sleep_risk * stress_risk + 
+                   physical_activity + 
+                   age_group + 
+                   Gender + 
+                   `Daily Caloric Surplus/Deficit` + 
+                   `BMR (Calories)` + 
+                   `Duration (weeks)`, 
+                 data = Health)
+
+# Full summary including p-values
+summary(model_full)
+
+pivot_table <- Health %>%
+  group_by(`Poor Sleep Risk`, age_group) %>%
+  summarise(
+    `Mean Weight Change` = mean(`Weight Change (lbs)`, na.rm = TRUE),
+    Count = n()
+  ) %>%
+  arrange(`Poor Sleep Risk`, age_group)
+
+lm_weight <- lm(`Weight Change (lbs)` ~ stress_risk * age_group, data = Health)
+summary(lm_weight)
+
+pivot_table2 <- Health %>%
+  group_by(`High Stress Risk`, age_group) %>%
+  summarise(
+    `Mean Weight Change` = mean(`Weight Change (lbs)`, na.rm = TRUE),
+    Count = n()
+  ) %>%
+  arrange(`High Stress Risk`, age_group)
+
+model_stress_age <- lm(`Weight Change (lbs)` ~ `High Stress Risk` * age_group, data = Health)
+summary(model_stress_age)
+
+
+
+```
+
+
+
+
+
+```{r}
+# . Present regression coefficients neatly
+tidy_model <- broom::tidy(model)
+tidy_model %>%
+  kable(caption = "Regression Results: Predicting Weight Change") %>%
+  kable_styling(bootstrap_options = "striped", full_width = FALSE)
+```

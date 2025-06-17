@@ -1,0 +1,54 @@
+"0","library(tidyverse)"
+"0","library(lubridate)"
+"0","library(flextable)"
+"0",""
+"0","# Clean and type-convert the data"
+"0","billions_clean <- Billions %>%"
+"0","  mutate("
+"0","    year = as.integer(year),"
+"0","    demographics.age = as.integer(demographics.age),"
+"0","    `wealth.worth in billions` = as.numeric(`wealth.worth in billions`),"
+"0","    location.gdp = as.numeric(location.gdp),"
+"0","    self_made = wealth.how.inherited == ""not inherited"","
+"0","    era = case_when("
+"0","      year < 2000 ~ ""1990s"","
+"0","      year < 2010 ~ ""2000s"","
+"0","      TRUE ~ ""2010s"""
+"0","    )"
+"0","  ) %>%"
+"0","  filter(!is.na(year), !is.na(`wealth.worth in billions`))"
+"0",""
+"0","# Check cleaned data"
+"0","glimpse(billions_clean)"
+"1","Rows: 2,614"
+"1",""
+"1","
+"
+"1","Columns: 21"
+"1",""
+"1","
+"
+"1","$ name                       [3m[38;5;246m<chr>[39m[23m ""Bill Gates""[38;5;246m, [39m""Bill Gates""[38;5;246m, [39m""Bill Gates""[38;5;246m, [39m""Warren Buffett""[38;5;246m, [39m""Warren Buff…
+$ rank                       [3m[38;5;246m<chr>[39m[23m ""1""[38;5;246m, [39m""1""[38;5;246m, [39m""1""[38;5;246m, [39m""2""[38;5;246m, [39m""2""[38;5;246m, [39m""2""[38;5;246m, [39m""3""[38;5;246m, [39m""3""[38;5;246m, [39m""3""[38;5;246m, [39m""4""[38;5;246m, [39m""4""[38;5;246m, [39m""4""[38;5;246m, [39m""5""[38;5;246m, [39m""5""[38;5;246m, [39m""5…
+$ year                       [3m[38;5;246m<int>[39m[23m 1996[38;5;246m, [39m2001[38;5;246m, [39m2014[38;5;246m, [39m1996[38;5;246m, [39m2001[38;5;246m, [39m2014[38;5;246m, [39m1996[38;5;246m, [39m2001[38;5;246m, [39m2014[38;5;246m, [39m1996[38;5;246m, [39m2001[38;5;246m, [39m2014[38;5;246m, [39m…
+$ company.founded            [3m[38;5;246m<chr>[39m[23m ""1975""[38;5;246m, [39m""1975""[38;5;246m, [39m""1975""[38;5;246m, [39m""1962""[38;5;246m, [39m""1962""[38;5;246m, [39m""1990""[38;5;246m, [39m""1896""[38;5;246m, [39m""1975""[38;5;246m, [39m""1975""[38;5;246m, [39m…
+$ company.name               [3m[38;5;246m<chr>[39m[23m ""Microsoft""[38;5;246m, [39m""Microsoft""[38;5;246m, [39m""Microsoft""[38;5;246m, [39m""Berkshire Hathaway""[38;5;246m, [39m""Berkshire …
+$ company.relationship       [3m[38;5;246m<chr>[39m[23m ""founder""[38;5;246m, [39m""founder""[38;5;246m, [39m""founder""[38;5;246m, [39m""founder""[38;5;246m, [39m""founder""[38;5;246m, [39m""founder""[38;5;246m, [39m[31mNA[39m[38;5;246m, [39m""f…
+$ company.sector             [3m[38;5;246m<chr>[39m[23m ""Software""[38;5;246m, [39m""Software""[38;5;246m, [39m""Software""[38;5;246m, [39m""Finance""[38;5;246m, [39m""Finance""[38;5;246m, [39m""Communication…
+$ company.type               [3m[38;5;246m<chr>[39m[23m ""new""[38;5;246m, [39m""new""[38;5;246m, [39m""new""[38;5;246m, [39m""new""[38;5;246m, [39m""new""[38;5;246m, [39m""privatization""[38;5;246m, [39m""new""[38;5;246m, [39m""new""[38;5;246m, [39m""new""[38;5;246m,[39m…
+$ demographics.age           [3m[38;5;246m<int>[39m[23m 40[38;5;246m, [39m45[38;5;246m, [39m58[38;5;246m, [39m65[38;5;246m, [39m70[38;5;246m, [39m74[38;5;246m, [39m0[38;5;246m, [39m48[38;5;246m, [39m77[38;5;246m, [39m68[38;5;246m, [39m56[38;5;246m, [39m83[38;5;246m, [39m71[38;5;246m, [39m0[38;5;246m, [39m69[38;5;246m, [39m0[38;5;246m, [39m44[38;5;246m, [39m78[38;5;246m, [39m73[38;5;246m,[39m…
+$ demographics.gender        [3m[38;5;246m<chr>[39m[23m ""male""[38;5;246m, [39m""male""[38;5;246m, [39m""male""[38;5;246m, [39m""male""[38;5;246m, [39m""male""[38;5;246m, [39m""male""[38;5;246m, [39m[31mNA[39m[38;5;246m, [39m""male""[38;5;246m, [39m""male""[38;5;246m, [39m""mal…
+$ location.citizenship       [3m[38;5;246m<chr>[39m[23m ""United States""[38;5;246m, [39m""United States""[38;5;246m, [39m""United States""[38;5;246m, [39m""United States""[38;5;246m, [39m""Uni…
+$ `location.country code`    [3m[38;5;246m<chr>[39m[23m ""USA""[38;5;246m, [39m""USA""[38;5;246m, [39m""USA""[38;5;246m, [39m""USA""[38;5;246m, [39m""USA""[38;5;246m, [39m""MEX""[38;5;246m, [39m""CHE""[38;5;246m, [39m""USA""[38;5;246m, [39m""ESP""[38;5;246m, [39m""HKG""[38;5;246m, [39m""U…
+$ location.gdp               [3m[38;5;246m<dbl>[39m[23m 8.10e+12[38;5;246m, [39m1.06e+13[38;5;246m, [39m0.00e+00[38;5;246m, [39m8.10e+12[38;5;246m, [39m1.06e+13[38;5;246m, [39m0.00e+00[38;5;246m, [39m3.30e+11[38;5;246m, [39m1.…
+$ location.region            [3m[38;5;246m<chr>[39m[23m ""North America""[38;5;246m, [39m""North America""[38;5;246m, [39m""North America""[38;5;246m, [39m""North America""[38;5;246m, [39m""Nor…
+$ wealth.type                [3m[38;5;246m<chr>[39m[23m ""founder non-finance""[38;5;246m, [39m""founder non-finance""[38;5;246m, [39m""founder non-finance""[38;5;246m, [39m""fo…
+$ `wealth.worth in billions` [3m[38;5;246m<dbl>[39m[23m 18.5[38;5;246m, [39m58.7[38;5;246m, [39m76.0[38;5;246m, [39m15.0[38;5;246m, [39m32.3[38;5;246m, [39m72.0[38;5;246m, [39m13.1[38;5;246m, [39m30.4[38;5;246m, [39m64.0[38;5;246m, [39m12.7[38;5;246m, [39m26.0[38;5;246m, [39m58.2[38;5;246m, [39m…
+$ wealth.how.category        [3m[38;5;246m<chr>[39m[23m ""New Sectors""[38;5;246m, [39m""New Sectors""[38;5;246m, [39m""New Sectors""[38;5;246m, [39m""Traded Sectors""[38;5;246m, [39m""Traded S…
+$ wealth.how.industry        [3m[38;5;246m<chr>[39m[23m ""Technology-Computer""[38;5;246m, [39m""Technology-Computer""[38;5;246m, [39m""Technology-Computer""[38;5;246m, [39m""Co…
+$ wealth.how.inherited       [3m[38;5;246m<chr>[39m[23m ""not inherited""[38;5;246m, [39m""not inherited""[38;5;246m, [39m""not inherited""[38;5;246m, [39m""not inherited""[38;5;246m, [39m""not…
+$ self_made                  [3m[38;5;246m<lgl>[39m[23m TRUE[38;5;246m, [39mTRUE[38;5;246m, [39mTRUE[38;5;246m, [39mTRUE[38;5;246m, [39mTRUE[38;5;246m, [39mTRUE[38;5;246m, [39mFALSE[38;5;246m, [39mTRUE[38;5;246m, [39mTRUE[38;5;246m, [39mTRUE[38;5;246m, [39mTRUE[38;5;246m, [39mTRUE[38;5;246m,[39m…
+$ era                        [3m[38;5;246m<chr>[39m[23m ""1990s""[38;5;246m, [39m""2000s""[38;5;246m, [39m""2010s""[38;5;246m, [39m""1990s""[38;5;246m, [39m""2000s""[38;5;246m, [39m""2010s""[38;5;246m, [39m""1990s""[38;5;246m, [39m""2000s""[38;5;246m, [39m…"
+"1",""
+"1","
+"

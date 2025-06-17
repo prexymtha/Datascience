@@ -1,0 +1,8 @@
+"0",""
+"0","# 4. Visualizations for key variables"
+"0","library(ggplot2)"
+"0",""
+"0","# Sleep Quality distribution"
+"0","ggplot(Health, aes(x = `Sleep Quality`)) +"
+"0","  geom_bar(fill = ""skyblue"") +"
+"0","  labs(title = ""Distribution of Sleep Quality"", y = ""Count"")"

@@ -1,0 +1,8 @@
+"0","knitr::opts_chunk$set(echo = FALSE)"
+"0","# Load required packages efficiently with pacman "
+"0","if (!require(""pacman"")) install.packages(""pacman"")"
+"0","pacman::p_load(tidyverse, broom, kableExtra)"
+"0","# Run the R script to load and define all necessary objects"
+"0","source(""C:/Users/pmnha/OneDrive/Desktop/Masters 2025_Economics/Datascience/Exam/22660348/Question5/Code/Health.R"", encoding = ""UTF-8"")"
+"2","Error: 'Datascience/Exam/22660348/Question5/Data/HealthCare.csv' does not exist in current working directory ('C:/Users/pmnha/OneDrive/Desktop/Masters 2025_Economics/Datascience/Exam/22660348/Question5/Results').
+"

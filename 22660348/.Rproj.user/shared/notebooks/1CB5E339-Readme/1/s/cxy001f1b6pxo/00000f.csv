@@ -1,0 +1,55 @@
+"0","# Load necessary packages using pacman"
+"0","if (!require(""pacman"")) install.packages(""pacman"")"
+"0","pacman::p_load(tidyverse, skimr, GGally, kableExtra)"
+"2","trying URL 'https://cran.rstudio.com/bin/windows/contrib/4.4/ggstats_0.9.0.zip'
+"
+"2","Content type 'application/zip'"
+"2"," length 1249480 bytes (1.2 MB)
+"
+"2","downloaded 1.2 MB
+
+"
+"2","trying URL 'https://cran.rstudio.com/bin/windows/contrib/4.4/GGally_2.2.1.zip'
+"
+"2","Content type 'application/zip'"
+"2"," length 1958586 bytes (1.9 MB)
+"
+"2","downloaded 1.9 MB
+
+"
+"1","package ‘ggstats’ successfully unpacked and MD5 sums checked
+"
+"1","package ‘GGally’ successfully unpacked and MD5 sums checked
+"
+"1","
+"
+"1",""
+"1","The downloaded binary packages are in
+	C:\Users\pmnha\AppData\Local\Temp\RtmpaUtB0C\downloaded_packages"
+"1",""
+"1","
+"
+"0","# 1. Data structure and missingness"
+"0","skimr::skim(Health)"
+"1","── Data Summary ────────────────────────
+"
+"1","                           Values
+"
+"1","Name                       Health
+"
+"1","Number of rows             100   
+"
+"1","Number of columns          13    
+"
+"1","_______________________          
+"
+"1","Column type frequency:           
+"
+"1","  character                3     
+"
+"1","  numeric                  10    
+"
+"1","________________________         
+"
+"1","Group variables            None  
+"

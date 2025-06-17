@@ -1,0 +1,70 @@
+
+# Load the cleaned dataset
+wine_data_clean <- readRDS("Data/cleaned_calitzdorp_wine_data.rds")
+
+## Step 1: Advanced Text Preprocessing
+wine_tokens <- wine_data_clean %>%
+  mutate(id = row_number()) %>%
+  unnest_tokens(word, `User Review Text`) %>%
+  anti_join(stop_words, by = "word") %>%
+  filter(!grepl("[0-9]+", word)) %>%  # Remove numbers
+  mutate(word = gsub("[^[:alnum:]]", "", word)) %>%  # Remove special characters
+  filter(nchar(word) > 2)  # Remove very short words
+
+## Step 2: Multi-Lexicon Sentiment Analysis
+# Using multiple dictionaries for robust sentiment scoring
+bing_sentiment <- wine_tokens %>%
+  inner_join(get_sentiments("bing"), by = "word") %>%
+  count(id, sentiment) %>%
+  pivot_wider(names_from = sentiment, values_from = n, values_fill = 0) %>%
+  mutate(bing_score = (positive - negative)/(positive + negative + 1))
+
+afinn_sentiment <- wine_tokens %>%
+  inner_join(get_sentiments("afinn"), by = "word") %>%
+  group_by(id) %>%
+  summarise(afinn_score = mean(value))
+
+nrc_sentiment <- wine_tokens %>%
+  inner_join(get_sentiments("nrc") %>% filter(sentiment %in% c("positive", "negative")), by = "word") %>%
+  count(id, sentiment) %>%
+  pivot_wider(names_from = sentiment, values_from = n, values_fill = 0) %>%
+  mutate(nrc_score = (positive - negative)/(positive + negative + 1))
+
+             
+## Step 3: Sentimentr Analysis (Advanced)
+# Step 1: Ensure 'id' exists
+wine_data_clean <- wine_data_clean %>%
+  mutate(id = row_number())
+
+# Step 2: Extract sentences from the text column
+sentences <- get_sentences(wine_data_clean$`User Review Text`)
+
+# Step 3: Get sentiment scores
+sentimentr_scores <- sentiment_by(sentences, by = wine_data_clean$id) %>%
+  select(id, sentimentr_score = ave_sentiment)
+
+             
+## Step 4: Combine All Sentiment Scores
+             wine_data_with_sentiment <- wine_data_clean %>%
+               left_join(bing_sentiment, by = "id") %>%
+               left_join(afinn_sentiment, by = "id") %>%
+               left_join(nrc_sentiment, by = "id") %>%
+               left_join(sentimentr_scores, by = "id") %>%
+               mutate(
+                 # Create composite sentiment score (average of all methods)
+                 composite_sentiment = rowMeans(
+                   select(., bing_score, afinn_score, nrc_score, sentimentr_score),
+                   na.rm = TRUE),
+                 
+                 # Sentiment classification
+                 sentiment_label = case_when(
+                   composite_sentiment > 0.1 ~ "Positive",
+                   composite_sentiment < -0.1 ~ "Negative",
+                   TRUE ~ "Neutral"
+                 )
+               ) %>%
+               select(-id)
+  
+## Step 7: Save Results
+saveRDS(wine_data_with_sentiment, "Data/cleaned_calitzdorp_wine_data_with_sentiment.rds")
+

@@ -1,0 +1,28 @@
+
+Call:
+lm(formula = `Weight Change (lbs)` ~ `High Stress Risk` * age_group, 
+    data = data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-23.865  -2.815   1.035   2.622  16.613 
+
+Coefficients:
+                                                     Estimate Std. Error t value Pr(>|t|)   
+(Intercept)                                           -0.3147     1.5095  -0.209  0.83531   
+`High Stress Risk`Yes                                 -4.4925     2.6145  -1.718  0.08918 . 
+age_groupEarly Career (30-39)                          0.6528     2.1348   0.306  0.76047   
+age_groupMiddle-aged (40-49)                           0.1065     2.1031   0.051  0.95972   
+age_groupPreretirement (50-64)                         0.1637     2.1348   0.077  0.93905   
+age_groupTeenagers (<20)                              -1.8669     3.0936  -0.603  0.54771   
+`High Stress Risk`Yes:age_groupEarly Career (30-39)  -10.0493     3.7845  -2.655  0.00937 **
+`High Stress Risk`Yes:age_groupMiddle-aged (40-49)    -7.1121     3.7668  -1.888  0.06223 . 
+`High Stress Risk`Yes:age_groupPreretirement (50-64)   1.2484     3.7845   0.330  0.74226   
+`High Stress Risk`Yes:age_groupTeenagers (<20)       -10.4760     7.1123  -1.473  0.14426   
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 6.038 on 90 degrees of freedom
+Multiple R-squared:  0.4018,	Adjusted R-squared:  0.342 
+F-statistic: 6.718 on 9 and 90 DF,  p-value: 2.604e-07
+
