@@ -21,7 +21,7 @@ tablelist: no
 footnotelist: no
 
 classoption: "man"
-output: papaja::apa6_pdf
+ papaja::apa6_pdf
 ---
 
 ```{r setup, include = FALSE}
@@ -32,7 +32,7 @@ r_refs("r-references.bib")
 ```{r analysis-preferences}
 # Seed for random number generation
 set.seed(42)
-knitr::opts_chunk$set(cache.extra = knitr::rand_seed)
+knitr::opts_chunk$set(cache.extra = knitr::rand_seed , error = TRUE)
 ```
 
 # Question 1 Baby Names 
@@ -207,7 +207,73 @@ A differentiated, quality-first strategy that leverages genre insights, runtime 
 
 
 
-#Question4 Billionaires
+# Question 4 Billionaires
+
+```{r wealthmap-image, echo=FALSE, out.width="90%"}
+knitr::include_graphics("C:/Users/pmnha/my-new-project/22660348/Question4/Results/wealthmap.png")
+```
+
+```{r inheritance-image, echo=FALSE, out.width="90%"}
+knitr::include_graphics("C:/Users/pmnha/my-new-project/22660348/Question4/Results/inheritance.png")
+```
+
+```{r industrydominance-image, echo=FALSE, out.width="90%"}
+knitr::include_graphics("C:/Users/pmnha/my-new-project/22660348/Question4/Results/industrydominance.png")
+```
+
+```{r bubbles, echo=FALSE, out.width="90%"}
+knitr::include_graphics("C:/Users/pmnha/my-new-project/22660348/Question4/Results/bubble.png")
+```
+
+```{r wealthbyregion-image, echo=FALSE, out.width="90%"}
+knitr::include_graphics("C:/Users/pmnha/my-new-project/22660348/Question4/Results/wealthbyregion.png")
+```
+
+```{r topcountries-image, echo=FALSE, out.width="90%"}
+knitr::include_graphics("C:/Users/pmnha/my-new-project/22660348/Question4/Results/topcountries.png")
+```
+
+```{r wealthgrowth-image, echo=FALSE, out.width="90%"}
+knitr::include_graphics("C:/Users/pmnha/my-new-project/22660348/Question4/Results/wealthgrowth.png")
+```
+
+```{r industrypermarket-image, echo=FALSE, out.width="90%"}
+knitr::include_graphics("C:/Users/pmnha/my-new-project/22660348/Question4/Results/industrypermarket.png")
+```
+
+```{r marketgender-image, echo=FALSE, out.width="90%"}
+knitr::include_graphics("C:/Users/pmnha/my-new-project/22660348/Question4/Results/marketgender.png")
+```
+
+```{r regional-image, echo=FALSE, out.width="90%"}
+knitr::include_graphics("C:/Users/pmnha/my-new-project/22660348/Question4/Results/regional.png")
+```
+
+```{r genderage-image, echo=FALSE, out.width="90%"}
+knitr::include_graphics("C:/Users/pmnha/my-new-project/22660348/Question4/Results/genderage.png")
+```
+
+```{r founder-age-image, echo=FALSE, out.width="90%"}
+knitr::include_graphics("C:/Users/pmnha/my-new-project/22660348/Question4/Results/founder_age_by_market_type.png")
+```
+
+```{r billmarket-image, echo=FALSE, out.width="90%"}
+knitr::include_graphics("C:/Users/pmnha/my-new-project/22660348/Question4/Results/billmarket.png")
+```
+
+```{r ageave-image, echo=FALSE, out.width="90%"}
+knitr::include_graphics("C:/Users/pmnha/my-new-project/22660348/Question4/Results/ageave.png")
+```
+
+```{r age-trends-market-image, echo=FALSE, out.width="90%"}
+knitr::include_graphics("C:/Users/pmnha/my-new-project/22660348/Question4/Results/age_trends_by_market_type.png")
+```
+
+```{r age-distribution-decade-image, echo=FALSE, out.width="90%"}
+knitr::include_graphics("C:/Users/pmnha/my-new-project/22660348/Question4/Results/age_distribution_by_decade.png")
+```
+
+
 
 
 ## Data analysis

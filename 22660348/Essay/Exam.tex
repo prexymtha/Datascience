@@ -535,11 +535,75 @@ Anchor commissioned or licensed content within the 90--120 minute range to enhan
 
 A differentiated, quality-first strategy that leverages genre insights, runtime discipline, and curated international content provides a clear pathway for new entrants to gain market share and investor confidence---without replicating the scale-driven pitfalls observed in Netflix's recent trajectory.
 
-\#Question4 Billionaires
+\section{Question 4 Billionaires}\label{question-4-billionaires}
+
+\begin{figure}
+\includegraphics[width=0.9\linewidth]{../Question4/Results/wealthmap} \caption{ }\label{fig:wealthmap-image}
+\end{figure}
+
+\begin{figure}
+\includegraphics[width=0.9\linewidth]{../Question4/Results/inheritance} \caption{ }\label{fig:inheritance-image}
+\end{figure}
+
+\begin{figure}
+\includegraphics[width=0.9\linewidth]{../Question4/Results/industrydominance} \caption{ }\label{fig:industrydominance-image}
+\end{figure}
+
+\begin{figure}
+\includegraphics[width=0.9\linewidth]{../Question4/Results/bubble} \caption{ }\label{fig:bubbles}
+\end{figure}
+
+\begin{figure}
+\includegraphics[width=0.9\linewidth]{../Question4/Results/wealthbyregion} \caption{ }\label{fig:wealthbyregion-image}
+\end{figure}
+
+\begin{figure}
+\includegraphics[width=0.9\linewidth]{../Question4/Results/topcountries} \caption{ }\label{fig:topcountries-image}
+\end{figure}
+
+\begin{figure}
+\includegraphics[width=0.9\linewidth]{../Question4/Results/wealthgrowth} \caption{ }\label{fig:wealthgrowth-image}
+\end{figure}
+
+\begin{figure}
+\includegraphics[width=0.9\linewidth]{../Question4/Results/industrypermarket} \caption{ }\label{fig:industrypermarket-image}
+\end{figure}
+
+\begin{figure}
+\includegraphics[width=0.9\linewidth]{../Question4/Results/marketgender} \caption{ }\label{fig:marketgender-image}
+\end{figure}
+
+\begin{figure}
+\includegraphics[width=0.9\linewidth]{../Question4/Results/regional} \caption{ }\label{fig:regional-image}
+\end{figure}
+
+\begin{figure}
+\includegraphics[width=0.9\linewidth]{../Question4/Results/genderage} \caption{ }\label{fig:genderage-image}
+\end{figure}
+
+\begin{figure}
+\includegraphics[width=0.9\linewidth]{../Question4/Results/founder_age_by_market_type} \caption{ }\label{fig:founder-age-image}
+\end{figure}
+
+\begin{figure}
+\includegraphics[width=0.9\linewidth]{../Question4/Results/billmarket} \caption{ }\label{fig:billmarket-image}
+\end{figure}
+
+\begin{figure}
+\includegraphics[width=0.9\linewidth]{../Question4/Results/ageave} \caption{ }\label{fig:ageave-image}
+\end{figure}
+
+\begin{figure}
+\includegraphics[width=0.9\linewidth]{../Question4/Results/age_trends_by_market_type} \caption{ }\label{fig:age-trends-market-image}
+\end{figure}
+
+\begin{figure}
+\includegraphics[width=0.9\linewidth]{../Question4/Results/age_distribution_by_decade} \caption{ }\label{fig:age-distribution-decade-image}
+\end{figure}
 
 \subsection{Data analysis}\label{data-analysis}
 
-We used R (Version 4.4.3; R Core Team, 2025) and the R-packages \emph{dplyr} (Version 1.1.4; Wickham, François, Henry, Müller, \& Vaughan, 2023), \emph{fastDummies} (Version 1.7.5; Kaplan, 2025), \emph{forcats} (Version 1.0.0; Wickham, 2023a), \emph{ggplot2} (Version 3.5.2; Wickham, 2016), \emph{ggrepel} (Version 0.9.6; Slowikowski, 2024), \emph{lubridate} (Version 1.9.4; Grolemund \& Wickham, 2011), \emph{papaja} (Version 0.1.3; Aust \& Barth, 2024), \emph{patchwork} (Version 1.3.0; Pedersen, 2024), \emph{purrr} (Version 1.0.4; Wickham \& Henry, 2025), \emph{readr} (Version 2.1.5; Wickham, Hester, \& Bryan, 2024), \emph{stringr} (Version 1.5.1; Wickham, 2023b), \emph{tibble} (Version 3.2.1; Müller \& Wickham, 2023), \emph{tidyr} (Version 1.3.1; Wickham, Vaughan, \& Girlich, 2024), \emph{tidyverse} (Version 2.0.0; Wickham et al., 2019), and \emph{tinylabels} (Version 0.2.5; Barth, 2025) for all our analyses.
+We used R (Version 4.4.3; R Core Team, 2025) and the R-packages \emph{dplyr} (Version 1.1.4; Wickham, François, Henry, Müller, \& Vaughan, 2023), \emph{fastDummies} (Version 1.7.5; Kaplan, 2025), \emph{forcats} (Version 1.0.0; Wickham, 2023a), \emph{ggplot2} (Version 3.5.2; Wickham, 2016), \emph{ggrepel} (Version 0.9.6; Slowikowski, 2024), \emph{ggthemes} (Version 5.1.0; Arnold, 2024), \emph{igraph} (Version 2.1.4; Csardi \& Nepusz, 2006), \emph{lubridate} (Version 1.9.4; Grolemund \& Wickham, 2011), \emph{pacman} (Version 0.5.1; Rinker \& Kurkiewicz, 2018), \emph{papaja} (Version 0.1.3; Aust \& Barth, 2024), \emph{patchwork} (Version 1.3.0; Pedersen, 2024), \emph{purrr} (Version 1.0.4; Wickham \& Henry, 2025), \emph{readr} (Version 2.1.5; Wickham, Hester, \& Bryan, 2024), \emph{readxl} (Version 1.4.5; Wickham \& Bryan, 2025), \emph{rnaturalearth} (Version 1.0.1; Massicotte \& South, 2023; South, Michael, \& Massicotte, 2024), \emph{rnaturalearthdata} (Version 1.0.0; South et al., 2024), \emph{scales} (Version 1.3.0; Wickham, Pedersen, \& Seidel, 2023), \emph{sf} (Version 1.0.21; Pebesma, 2018), \emph{stringr} (Version 1.5.1; Wickham, 2023b), \emph{tibble} (Version 3.2.1; Müller \& Wickham, 2023), \emph{tidyr} (Version 1.3.1; Wickham, Vaughan, \& Girlich, 2024), \emph{tidyverse} (Version 2.0.0; Wickham et al., 2019), \emph{tinylabels} (Version 0.2.5; Barth, 2025), \emph{viridis} (Garnier et al., 2023; Version 0.6.5; Garnier et al., 2024), and \emph{viridisLite} (Version 0.4.2; Garnier et al., 2023) for all our analyses.
 \#\#Results
 
 \#\#Discussion
@@ -778,11 +842,23 @@ RMSE & 5.47 & 5.73 \\
 
 \phantomsection\label{refs}
 \begin{CSLReferences}{1}{0}
+\bibitem[\citeproctext]{ref-R-ggthemes}
+Arnold, J. B. (2024). \emph{Ggthemes: Extra themes, scales and geoms for 'ggplot2'}. Retrieved from \url{https://CRAN.R-project.org/package=ggthemes}
+
 \bibitem[\citeproctext]{ref-R-papaja}
 Aust, F., \& Barth, M. (2024). \emph{{papaja}: {Prepare} reproducible {APA} journal articles with {R Markdown}}. \url{https://doi.org/10.32614/CRAN.package.papaja}
 
 \bibitem[\citeproctext]{ref-R-tinylabels}
 Barth, M. (2025). \emph{{tinylabels}: Lightweight variable labels}. \url{https://doi.org/10.32614/CRAN.package.tinylabels}
+
+\bibitem[\citeproctext]{ref-R-igraph}
+Csardi, G., \& Nepusz, T. (2006). The igraph software package for complex network research. \emph{InterJournal}, \emph{Complex Systems}, 1695. Retrieved from \url{https://igraph.org}
+
+\bibitem[\citeproctext]{ref-R-viridisLite}
+Garnier, Simon, Ross, Noam, Rudis, Robert, \ldots{} Cédric. (2023). \emph{{viridis(Lite)} - colorblind-friendly color maps for r}. \url{https://doi.org/10.5281/zenodo.4678327}
+
+\bibitem[\citeproctext]{ref-R-viridis}
+Garnier, Simon, Ross, Noam, Rudis, Robert, \ldots{} Cédric. (2024). \emph{{viridis(Lite)} - colorblind-friendly color maps for r}. \url{https://doi.org/10.5281/zenodo.4679423}
 
 \bibitem[\citeproctext]{ref-R-lubridate}
 Grolemund, G., \& Wickham, H. (2011). Dates and times made easy with {lubridate}. \emph{Journal of Statistical Software}, \emph{40}(3), 1--25. Retrieved from \url{https://www.jstatsoft.org/v40/i03/}
@@ -790,8 +866,14 @@ Grolemund, G., \& Wickham, H. (2011). Dates and times made easy with {lubridate}
 \bibitem[\citeproctext]{ref-R-fastDummies}
 Kaplan, J. (2025). \emph{fastDummies: Fast creation of dummy (binary) columns and rows from categorical variables}. Retrieved from \url{https://CRAN.R-project.org/package=fastDummies}
 
+\bibitem[\citeproctext]{ref-R-rnaturalearth}
+Massicotte, P., \& South, A. (2023). \emph{Rnaturalearth: World map data from natural earth}. Retrieved from \url{https://CRAN.R-project.org/package=rnaturalearth}
+
 \bibitem[\citeproctext]{ref-R-tibble}
 Müller, K., \& Wickham, H. (2023). \emph{Tibble: Simple data frames}. Retrieved from \url{https://CRAN.R-project.org/package=tibble}
+
+\bibitem[\citeproctext]{ref-R-sf}
+Pebesma, E. (2018). {Simple Features for R: Standardized Support for Spatial Vector Data}. \emph{{The R Journal}}, \emph{10}(1), 439--446. \url{https://doi.org/10.32614/RJ-2018-009}
 
 \bibitem[\citeproctext]{ref-R-patchwork}
 Pedersen, T. L. (2024). \emph{Patchwork: The composer of plots}. Retrieved from \url{https://CRAN.R-project.org/package=patchwork}
@@ -799,8 +881,14 @@ Pedersen, T. L. (2024). \emph{Patchwork: The composer of plots}. Retrieved from 
 \bibitem[\citeproctext]{ref-R-base}
 R Core Team. (2025). \emph{R: A language and environment for statistical computing}. Vienna, Austria: R Foundation for Statistical Computing. Retrieved from \url{https://www.R-project.org/}
 
+\bibitem[\citeproctext]{ref-R-pacman}
+Rinker, T. W., \& Kurkiewicz, D. (2018). \emph{{pacman}: {P}ackage management for {R}}. Buffalo, New York. Retrieved from \url{http://github.com/trinker/pacman}
+
 \bibitem[\citeproctext]{ref-R-ggrepel}
 Slowikowski, K. (2024). \emph{Ggrepel: Automatically position non-overlapping text labels with 'ggplot2'}. Retrieved from \url{https://CRAN.R-project.org/package=ggrepel}
+
+\bibitem[\citeproctext]{ref-R-rnaturalearthdata}
+South, A., Michael, S., \& Massicotte, P. (2024). \emph{Rnaturalearthdata: World vector map data from natural earth used in 'rnaturalearth'}. Retrieved from \url{https://CRAN.R-project.org/package=rnaturalearthdata}
 
 \bibitem[\citeproctext]{ref-R-ggplot2}
 Wickham, H. (2016). \emph{ggplot2: Elegant graphics for data analysis}. Springer-Verlag New York. Retrieved from \url{https://ggplot2.tidyverse.org}
@@ -814,6 +902,9 @@ Wickham, H. (2023b). \emph{Stringr: Simple, consistent wrappers for common strin
 \bibitem[\citeproctext]{ref-R-tidyverse}
 Wickham, H., Averick, M., Bryan, J., Chang, W., McGowan, L. D., François, R., \ldots{} Yutani, H. (2019). Welcome to the {tidyverse}. \emph{Journal of Open Source Software}, \emph{4}(43), 1686. \url{https://doi.org/10.21105/joss.01686}
 
+\bibitem[\citeproctext]{ref-R-readxl}
+Wickham, H., \& Bryan, J. (2025). \emph{Readxl: Read excel files}. Retrieved from \url{https://CRAN.R-project.org/package=readxl}
+
 \bibitem[\citeproctext]{ref-R-dplyr}
 Wickham, H., François, R., Henry, L., Müller, K., \& Vaughan, D. (2023). \emph{Dplyr: A grammar of data manipulation}. Retrieved from \url{https://CRAN.R-project.org/package=dplyr}
 
@@ -822,6 +913,9 @@ Wickham, H., \& Henry, L. (2025). \emph{Purrr: Functional programming tools}. Re
 
 \bibitem[\citeproctext]{ref-R-readr}
 Wickham, H., Hester, J., \& Bryan, J. (2024). \emph{Readr: Read rectangular text data}. Retrieved from \url{https://CRAN.R-project.org/package=readr}
+
+\bibitem[\citeproctext]{ref-R-scales}
+Wickham, H., Pedersen, T. L., \& Seidel, D. (2023). \emph{Scales: Scale functions for visualization}. Retrieved from \url{https://CRAN.R-project.org/package=scales}
 
 \bibitem[\citeproctext]{ref-R-tidyr}
 Wickham, H., Vaughan, D., \& Girlich, M. (2024). \emph{Tidyr: Tidy messy data}. Retrieved from \url{https://CRAN.R-project.org/package=tidyr}
