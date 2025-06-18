@@ -1,0 +1,64 @@
+\begin{table}
+\centering
+\begin{talltblr}[         %% tabularray outer open
+entry=none,label=none,
+note{}={* p \num{< 0.1}, ** p \num{< 0.05}, *** p \num{< 0.01}},
+]                     %% tabularray outer close
+{                     %% tabularray inner open
+colspec={Q[]Q[]Q[]},
+column{2,3}={}{halign=c,},
+column{1}={}{halign=l,},
+hline{42}={1,2,3}{solid, black, 0.05em},
+}                     %% tabularray inner close
+\toprule
+& Sleep-Stress Interaction & Stress-Age Interaction \\ \midrule %% TinyTableHeader
+(Intercept) & \num{1.758} & \num{-0.315} \\
+& (\num{6.660}) & (\num{1.510}) \\
+sleep\_riskPoor Sleep & \num{-7.168}*** &  \\
+& (\num{2.704}) &  \\
+stress\_riskLow Stress & \num{5.800}** &  \\
+& (\num{2.717}) &  \\
+physical\_activityModerately Active & \num{-1.142} &  \\
+& (\num{1.893}) &  \\
+physical\_activitySedentary & \num{-0.539} &  \\
+& (\num{1.982}) &  \\
+physical\_activityVery Active & \num{-1.076} &  \\
+& (\num{2.311}) &  \\
+age\_groupEarly Career (30-39) & \num{-2.976} & \num{0.653} \\
+& (\num{1.875}) & (\num{2.135}) \\
+age\_groupMiddle-aged (40-49) & \num{-2.226} & \num{0.107} \\
+& (\num{1.766}) & (\num{2.103}) \\
+age\_groupPreretirement (50-64) & \num{-0.777} & \num{0.164} \\
+& (\num{1.891}) & (\num{2.135}) \\
+age\_groupTeenagers (<20) & \num{-3.178} & \num{-1.867} \\
+& (\num{2.861}) & (\num{3.094}) \\
+GenderM & \num{-1.650} &  \\
+& (\num{1.597}) &  \\
+Daily Caloric Surplus/Deficit & \num{0.002} &  \\
+& (\num{0.003}) &  \\
+BMR (Calories) & \num{-0.001} &  \\
+& (\num{0.002}) &  \\
+Duration (weeks) & \num{-0.158} &  \\
+& (\num{0.175}) &  \\
+sleep\_riskPoor Sleep × stress\_riskLow Stress & \num{2.980} &  \\
+& (\num{3.290}) &  \\
+High Stress RiskYes &  & \num{-4.493}* \\
+&  & (\num{2.615}) \\
+High Stress RiskYes × age\_groupEarly Career (30-39) &  & \num{-10.049}*** \\
+&  & (\num{3.785}) \\
+High Stress RiskYes × age\_groupMiddle-aged (40-49) &  & \num{-7.112}* \\
+&  & (\num{3.767}) \\
+High Stress RiskYes × age\_groupPreretirement (50-64) &  & \num{1.248} \\
+&  & (\num{3.785}) \\
+High Stress RiskYes × age\_groupTeenagers (<20) &  & \num{-10.476} \\
+&  & (\num{7.112}) \\
+Num.Obs. & \num{100} & \num{100} \\
+R2 & \num{0.455} & \num{0.402} \\
+R2 Adj. & \num{0.366} & \num{0.342} \\
+AIC & \num{655.5} & \num{654.9} \\
+BIC & \num{697.2} & \num{683.5} \\
+Log.Lik. & \num{-311.752} & \num{-316.433} \\
+RMSE & \num{5.47} & \num{5.73} \\
+\bottomrule
+\end{talltblr}
+\end{table}

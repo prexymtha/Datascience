@@ -77,6 +77,9 @@ correlations <- expand.grid(
                            gender = Gender,
                            
                            MoreArgs = list(data = top25)))
+#-------------------------------
+ #Graph the hypothesis for the questionssss 
+#-------------------------------------
 
 library(ggplot2)
 
@@ -96,7 +99,7 @@ correlations_filtered <- correlations %>%
 
 # Create the improved plot with enhanced titles
 
-ggplot(correlations_filtered, aes(x = base_year, y = Spearman, color = offset)) +
+specorrelate <- ggplot(correlations_filtered, aes(x = base_year, y = Spearman, color = offset)) +
   
   geom_point(alpha = 0.3, size = 1.5) +  # Add individual points
   
@@ -152,6 +155,15 @@ ggplot(correlations_filtered, aes(x = base_year, y = Spearman, color = offset)) 
   
   guides(color = guide_legend(override.aes = list(alpha = 1, size = 2)))  # Make legend colors more visible
 
+# Save the plot
+ggsave(
+  filename = "specorrelate.png",  # change the filename as needed
+  plot = specorrelate,            # replace with your ggplot object
+  path = "C:/Users/pmnha/my-new-project/22660348/Question1/Results",
+  width = 8,
+  height = 6,
+  dpi = 300
+)
 
 # ===========================================================================
 
@@ -195,7 +207,7 @@ ttest_results <- correlations_era %>%
 
 # Visualization with era comparison
 
-ggplot(correlations_era, aes(x = base_year, y = Spearman, color = offset)) +
+eracomparison <- ggplot(correlations_era, aes(x = base_year, y = Spearman, color = offset)) +
   
   geom_point(alpha = 0.2) +
   
@@ -236,6 +248,16 @@ ggplot(correlations_era, aes(x = base_year, y = Spearman, color = offset)) +
 print(era_comparison)
 
 print(ttest_results)
+
+# Save the plot
+ggsave(
+  filename = "eracomparison.png",  # change the filename as needed
+  plot = eracomparison,            # replace with your ggplot object
+  path = "C:/Users/pmnha/my-new-project/22660348/Question1/Results",
+  width = 8,
+  height = 6,
+  dpi = 300
+)
 
 # =======================================================================
 
@@ -300,7 +322,7 @@ plot_data <- decade_wonders %>%
 
 # Create clean temporal visualization
 
-ggplot(decade_wonders, aes(x = decade, y = count, color = Gender)) +
+fads <- ggplot(decade_wonders, aes(x = decade, y = count, color = Gender)) +
   
   # Vertical era divider
   
@@ -314,23 +336,6 @@ ggplot(decade_wonders, aes(x = decade, y = count, color = Gender)) +
   
   # Era background highlights
   
-  annotate("rect", xmin = 1910, xmax = 1960, ymin = 0, ymax = Inf, 
-           
-           fill = "#F0F0F0", alpha = 0.3) +
-  
-  annotate("rect", xmin = 1960, xmax = 2020, ymin = 0, ymax = Inf, 
-           
-           fill = "#FFF8E1", alpha = 0.3) +
-  
-  # Era labels
-  
-  annotate("text", x = 1935, y = max(decade_wonders$count)*0.95, 
-           
-           label = "TRADITIONAL ERA", color = "gray40", size = 5) +
-  
-  annotate("text", x = 1980, y = max(decade_wonders$count)*0.95, 
-           
-           label = "MODERN ERA", color = "#E69F00", size = 5) +
   
   # Scales and labels
   
@@ -374,6 +379,14 @@ ggplot(decade_wonders, aes(x = decade, y = count, color = Gender)) +
     
   )
 
-#Other questions 
+# Save the plot
+ggsave(
+  filename = "fads.png",  # change the filename as needed
+  plot = fads,            # replace with your ggplot object
+  path = "C:/Users/pmnha/my-new-project/22660348/Question1/Results",
+  width = 8,
+  height = 6,
+  dpi = 300
+) 
 
 

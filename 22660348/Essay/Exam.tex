@@ -36,6 +36,16 @@
   \KOMAoptions{parskip=half}}
 \makeatother
 \usepackage{xcolor}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
 \usepackage{graphicx}
 \makeatletter
 \newsavebox\pandoc@box
@@ -365,23 +375,23 @@ In light of Netflix's recent subscriber attrition and share price volatility, a 
 
 \subsubsection{1. Quality vs.~Volume Trade-Off}\label{quality-vs.-volume-trade-off}
 
-Japanese titles, while constituting only 1.6\% of Netflix's catalogue, achieve superior average IMDb ratings (mean = 6.7, SD = ±0.3). By contrast, the United States and India collectively contribute over 50\% of Netflix's content but yield lower average ratings (mean = 6.1--6.3).
+Japanese titles, while constituting only 1.6\% of Netflix's catalogue, achieve superior average IMDb ratings (mean = 6.7, SD = ±0.3). By contrast, the United States and India collectively contribute over 50\% of Netflix's content but yield lower average ratings (mean = 6.1--6.3) (Figures 8, 15)
 \textbf{Implication}: High-volume strategies may dilute perceived quality.
 
 \subsubsection{2. Genre Performance Differentials}\label{genre-performance-differentials}
 
-Content genres vary markedly in audience reception. Documentaries (mean = 7.6) and dramas (mean = 7.0) lead on quality metrics, while action and comedy lag behind (mean = 6.2 and 6.5 respectively). Crime and thriller categories also demonstrate strong viewer engagement.
+Content genres vary markedly in audience reception. Documentaries (mean = 7.6) and dramas (mean = 7.0) lead on quality metrics, while action and comedy lag behind (mean = 6.2 and 6.5 respectively) (Figure 11). Crime and thriller categories also demonstrate strong viewer engagement.
 
 \textbf{Implication}:Narrative depth and authenticity drive audience satisfaction.
 
 \subsubsection{3. Optimal Runtime Windows}\label{optimal-runtime-windows}
 
-Ratings peak for films with runtimes between 90--120 minutes (mean = 7.5). Shorter or longer formats tend to correlate with lower ratings.
+Ratings peak for films with runtimes between 90--120 minutes (mean = 7.5). Shorter or longer formats tend to correlate with lower ratings (Figure 12).
 \textbf{Implication}:Viewer engagement is maximised within a standardised runtime threshold.
 
 \subsubsection{4. Age and Longevity of Content}\label{age-and-longevity-of-content}
 
-Older films (\textgreater20 years) sustain higher average ratings (mean = 8.5) compared to recent productions (1--3 years; mean = 6.0).
+Older films (\textgreater20 years) sustain higher average ratings (mean = 8.5)(Figure 7) compared to recent productions (1--3 years; mean = 6.0)(Figure 14).
 \textbf{Implication}:Legacy content benefits from curation and nostalgia; newer content faces saturation and discovery challenges.
 
 \subsection{Strategic Recommendations for New Market Entrant}\label{strategic-recommendations-for-new-market-entrant}
@@ -404,29 +414,257 @@ Anchor commissioned or licensed content within the 90--120 minute range to enhan
 
 A differentiated, quality-first strategy that leverages genre insights, runtime discipline, and curated international content provides a clear pathway for new entrants to gain market share and investor confidence---without replicating the scale-driven pitfalls observed in Netflix's recent trajectory.
 
-\subsection{Data analysis}\label{data-analysis}
-
-\subsection{Results}\label{results}
-
-\#\#Discussion
-
 \#Question4 Billionaires
 
-\subsection{Data analysis}\label{data-analysis-1}
+\subsection{Data analysis}\label{data-analysis}
 
 We used R (Version 4.4.3; R Core Team, 2025) and the R-packages \emph{dplyr} (Version 1.1.4; Wickham, François, Henry, Müller, \& Vaughan, 2023), \emph{fastDummies} (Version 1.7.5; Kaplan, 2025), \emph{forcats} (Version 1.0.0; Wickham, 2023a), \emph{ggplot2} (Version 3.5.2; Wickham, 2016), \emph{ggrepel} (Version 0.9.6; Slowikowski, 2024), \emph{lubridate} (Version 1.9.4; Grolemund \& Wickham, 2011), \emph{papaja} (Version 0.1.3; Aust \& Barth, 2024), \emph{patchwork} (Version 1.3.0; Pedersen, 2024), \emph{purrr} (Version 1.0.4; Wickham \& Henry, 2025), \emph{readr} (Version 2.1.5; Wickham, Hester, \& Bryan, 2024), \emph{stringr} (Version 1.5.1; Wickham, 2023b), \emph{tibble} (Version 3.2.1; Müller \& Wickham, 2023), \emph{tidyr} (Version 1.3.1; Wickham, Vaughan, \& Girlich, 2024), \emph{tidyverse} (Version 2.0.0; Wickham et al., 2019), and \emph{tinylabels} (Version 0.2.5; Barth, 2025) for all our analyses.
 \#\#Results
 
 \#\#Discussion
 
-\#Question5 Health
+\section{Question 5 Health}\label{question-5-health}
 
-\subsection{Data analysis}\label{data-analysis-2}
+\subsection{On Air Script}\label{on-air-script}
 
-We used R (Version 4.4.3; R Core Team, 2025) and the R-packages \emph{dplyr} (Version 1.1.4; Wickham et al., 2023), \emph{fastDummies} (Version 1.7.5; Kaplan, 2025), \emph{forcats} (Version 1.0.0; Wickham, 2023a), \emph{ggplot2} (Version 3.5.2; Wickham, 2016), \emph{ggrepel} (Version 0.9.6; Slowikowski, 2024), \emph{lubridate} (Version 1.9.4; Grolemund \& Wickham, 2011), \emph{papaja} (Version 0.1.3; Aust \& Barth, 2024), \emph{patchwork} (Version 1.3.0; Pedersen, 2024), \emph{purrr} (Version 1.0.4; Wickham \& Henry, 2025), \emph{readr} (Version 2.1.5; Wickham, Hester, et al., 2024), \emph{stringr} (Version 1.5.1; Wickham, 2023b), \emph{tibble} (Version 3.2.1; Müller \& Wickham, 2023), \emph{tidyr} (Version 1.3.1; Wickham, Vaughan, et al., 2024), \emph{tidyverse} (Version 2.0.0; Wickham et al., 2019), and \emph{tinylabels} (Version 0.2.5; Barth, 2025) for all our analyses.
-\#\#Results
+For the 9-to-5 gamer: 1 hour of extra sleep beats 1 hour on the treadmill. Data shows stress-free living is your real cheat code.
 
-\#\#Discussion
+We've been told for years to `exercise more'---but new data reveals the real game-changers: sleep and stress management. Here's the proof: Adults with poor sleep and high stress gained 7--10 pounds more than those with good sleep and low stress---based on regression analysis (p\textless0.01). The worst hit? Early-career professionals (ages 30--39), who saw up to 10 pounds more weight gain when stressed---even if they exercised. Why this matters: Gym memberships won't fix this. The solution? Protect your sleep: Aim for 7--9 hours, and keep a consistent schedule---it's your metabolic lifeline. Tame stress: Short walks, 5-minute breathing exercises, or setting work boundaries can slash health risks. Bottom line? Small changes to sleep and stress beat marathon workouts. Start tonight---your body will thank you.
+
+\begin{figure}
+\includegraphics[width=0.9\linewidth]{../Question5/Results/Sleep_Stress_Boxplot} \caption{ }\label{fig:sleep-stress-boxplot}
+\end{figure}
+
+\begin{table}
+
+\caption{(\#tab:sleep-risk-pivot )Weight Change Summary}
+\centering
+\begin{tabular}[t]{l|l|r|r|r}
+\hline
+Gender & age\_group & mean\_weight\_change & median\_weight\_change & n\\
+\hline
+F & Adults (20-29) & -1.0181151 & -0.3680584 & 10\\
+\hline
+F & Early Career (30-39) & -2.4545587 & -1.3943583 & 11\\
+\hline
+F & Middle-aged (40-49) & -3.4805916 & 0.7000000 & 12\\
+\hline
+F & Preretirement (50-64) & -1.5639095 & 0.0000000 & 9\\
+\hline
+F & Teenagers (<20) & -1.7940640 & -1.7940640 & 1\\
+\hline
+M & Adults (20-29) & -2.3794779 & -0.1679132 & 14\\
+\hline
+M & Early Career (30-39) & -5.5847844 & 0.6000000 & 12\\
+\hline
+M & Middle-aged (40-49) & -3.7051828 & 0.4500000 & 12\\
+\hline
+M & Preretirement (50-64) & -0.8648233 & -0.3807078 & 14\\
+\hline
+M & Teenagers (<20) & -5.2528414 & -5.7184960 & 5\\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}
+
+\caption{(\#tab:sleep-risk-pivot )Sleep Risk Pivot Summary}
+\centering
+\begin{tabular}[t]{l|l|r|r}
+\hline
+Poor Sleep Risk & age\_group & Mean\_Weight\_Change & Count\\
+\hline
+No & Adults (20-29) & 0.2142665 & 9\\
+\hline
+No & Early Career (30-39) & 1.5777778 & 9\\
+\hline
+No & Middle-aged (40-49) & 2.9571429 & 7\\
+\hline
+No & Preretirement (50-64) & -0.0982816 & 11\\
+\hline
+No & Teenagers (<20) & 1.9500000 & 2\\
+\hline
+Yes & Adults (20-29) & -3.0281494 & 15\\
+\hline
+Yes & Early Career (30-39) & -7.7298256 & 14\\
+\hline
+Yes & Middle-aged (40-49) & -6.2899584 & 17\\
+\hline
+Yes & Preretirement (50-64) & -2.0918011 & 12\\
+\hline
+Yes & Teenagers (<20) & -7.9895678 & 4\\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}
+
+\caption{(\#tab:sleep-risk-pivot )Stress Risk Pivot Summary}
+\centering
+\begin{tabular}[t]{l|l|r|r}
+\hline
+Poor Sleep Risk & age\_group & Mean\_Weight\_Change & Count\\
+\hline
+No & Adults (20-29) & 0.2142665 & 9\\
+\hline
+No & Early Career (30-39) & 1.5777778 & 9\\
+\hline
+No & Middle-aged (40-49) & 2.9571429 & 7\\
+\hline
+No & Preretirement (50-64) & -0.0982816 & 11\\
+\hline
+No & Teenagers (<20) & 1.9500000 & 2\\
+\hline
+Yes & Adults (20-29) & -3.0281494 & 15\\
+\hline
+Yes & Early Career (30-39) & -7.7298256 & 14\\
+\hline
+Yes & Middle-aged (40-49) & -6.2899584 & 17\\
+\hline
+Yes & Preretirement (50-64) & -2.0918011 & 12\\
+\hline
+Yes & Teenagers (<20) & -7.9895678 & 4\\
+\hline
+\end{tabular}
+\end{table}
+
+\newpage
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.5138}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.2477}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.2294}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Sleep-Stress Interaction
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Stress-Age Interaction
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\midrule\noalign{}
+\multicolumn{3}{@{}>{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.9908} + 4\tabcolsep}@{}}{%
+\begin{minipage}[t]{\linewidth}\raggedright
+\begin{itemize}
+\tightlist
+\item
+  p \textless{} 0.1, ** p \textless{} 0.05, *** p \textless{} 0.01
+\end{itemize}
+\end{minipage}} \\
+\bottomrule\noalign{}
+\endlastfoot
+(Intercept) & 1.758 & -0.315 \\
+& (6.660) & (1.510) \\
+sleep\_riskPoor Sleep & -7.168*** & \\
+& (2.704) & \\
+stress\_riskLow Stress & 5.800** & \\
+& (2.717) & \\
+physical\_activityModerately Active & -1.142 & \\
+& (1.893) & \\
+physical\_activitySedentary & -0.539 & \\
+& (1.982) & \\
+physical\_activityVery Active & -1.076 & \\
+& (2.311) & \\
+age\_groupEarly Career (30-39) & -2.976 & 0.653 \\
+& (1.875) & (2.135) \\
+age\_groupMiddle-aged (40-49) & -2.226 & 0.107 \\
+& (1.766) & (2.103) \\
+age\_groupPreretirement (50-64) & -0.777 & 0.164 \\
+& (1.891) & (2.135) \\
+age\_groupTeenagers (\textless20) & -3.178 & -1.867 \\
+& (2.861) & (3.094) \\
+GenderM & -1.650 & \\
+& (1.597) & \\
+Daily Caloric Surplus/Deficit & 0.002 & \\
+& (0.003) & \\
+BMR (Calories) & -0.001 & \\
+& (0.002) & \\
+Duration (weeks) & -0.158 & \\
+& (0.175) & \\
+sleep\_riskPoor Sleep × stress\_riskLow Stress & 2.980 & \\
+& (3.290) & \\
+High Stress RiskYes & & -4.493* \\
+& & (2.615) \\
+High Stress RiskYes × age\_groupEarly Career (30-39) & & -10.049*** \\
+& & (3.785) \\
+High Stress RiskYes × age\_groupMiddle-aged (40-49) & & -7.112* \\
+& & (3.767) \\
+\multicolumn{3}{@{}>{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.9908} + 4\tabcolsep}@{}}{%
+High Stress RiskYes × age\_groupPreretirement (50-64) \textbar{} \textbar{} 1.248 \textbar{}} \\
+& & (3.785) \\
+High Stress RiskYes × age\_groupTeenagers (\textless20) & & -10.476 \\
+& & (7.112) \\
+Num.Obs. & 100 & 100 \\
+R2 & 0.455 & 0.402 \\
+R2 Adj. & 0.366 & 0.342 \\
+AIC & 655.5 & 654.9 \\
+BIC & 697.2 & 683.5 \\
+Log.Lik. & -311.752 & -316.433 \\
+RMSE & 5.47 & 5.73 \\
+\end{longtable}
+
+\subsubsection{\texorpdfstring{\textbf{Key Findings on Health Determinants}}{Key Findings on Health Determinants}}\label{key-findings-on-health-determinants}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Sleep Quality is Critical}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Poor sleep correlates with \textbf{-7.2 lbs} weight gain (\emph{p\textless0.01}), surpassing the impact of physical activity (non-significant coefficients).\\
+  \item
+    Teens and early-career adults with poor sleep show the worst outcomes (\textbf{-7.7 to -8.0 lbs} mean weight change).Teens are abstracted from main analysis as their n is very small , n =5 .
+  \end{itemize}
+\item
+  \textbf{Stress Drives Negative Outcomes}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    High stress alone leads to \textbf{-4.5 lbs} weight gain (\emph{p\textless0.1}).\\
+  \item
+    Stress combined with poor sleep exacerbates effects, especially in younger age groups (interaction terms up to \textbf{-10.0 lbs}, \emph{p\textless0.01}).
+  \end{itemize}
+\item
+  \textbf{Sedentary Lifestyle Modifies Risk}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Sedentary individuals (red dots, Figure 16) show higher weight variability, but sleep/stress dominate overall trends.
+  \end{itemize}
+\end{enumerate}
+
+\subsubsection{\texorpdfstring{\textbf{Practical Recommendations}}{Practical Recommendations}}\label{practical-recommendations}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Prioritise Sleep Hygiene}: Consistent sleep schedules improve metabolic health more than moderate exercise.\\
+\item
+  \textbf{Stress Management}: Mindfulness or flexible work policies could mitigate high-stress impacts, particularly for younger adults.\\
+\item
+  \textbf{Targeted Interventions}: Early-career professionals need tailored programs addressing sleep and stress.
+\end{itemize}
+
+\subsubsection{\texorpdfstring{\textbf{Slide Deck Outline}}{Slide Deck Outline}}\label{slide-deck-outline}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Title Slide}: Sleep Over Squats
+\item
+  \textbf{Key Chart}: Figure 16 (weight change by sleep/stress groups, colored by sedentary status).\\
+\item
+  \textbf{Regression Snapshot}: Highlight significant coefficients (sleep, stress, age interactions).\\
+\item
+  \textbf{Call to Action}: ``Policy Focus: Sleep \& Stress \textgreater{} Gym Memberships.
+\end{enumerate}
 
 \newpage
 

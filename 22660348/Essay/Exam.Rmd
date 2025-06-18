@@ -83,23 +83,23 @@ knitr::include_graphics("C:/Users/pmnha/my-new-project/22660348/Question3/Result
 
 ### 1. Quality vs. Volume Trade-Off
 
-Japanese titles, while constituting only 1.6% of Netflix’s catalogue, achieve superior average IMDb ratings (mean = 6.7, SD = ±0.3). By contrast, the United States and India collectively contribute over 50% of Netflix’s content but yield lower average ratings (mean = 6.1–6.3).
+Japanese titles, while constituting only 1.6% of Netflix’s catalogue, achieve superior average IMDb ratings (mean = 6.7, SD = ±0.3). By contrast, the United States and India collectively contribute over 50% of Netflix’s content but yield lower average ratings (mean = 6.1–6.3) (Figures 8, 15)
 **Implication**: High-volume strategies may dilute perceived quality.
 
 ### 2. Genre Performance Differentials
 
-Content genres vary markedly in audience reception. Documentaries (mean = 7.6) and dramas (mean = 7.0) lead on quality metrics, while action and comedy lag behind (mean = 6.2 and 6.5 respectively). Crime and thriller categories also demonstrate strong viewer engagement.
+Content genres vary markedly in audience reception. Documentaries (mean = 7.6) and dramas (mean = 7.0) lead on quality metrics, while action and comedy lag behind (mean = 6.2 and 6.5 respectively) (Figure 11). Crime and thriller categories also demonstrate strong viewer engagement.
 
 **Implication**:Narrative depth and authenticity drive audience satisfaction.
 
 ### 3. Optimal Runtime Windows
 
-Ratings peak for films with runtimes between 90–120 minutes (mean = 7.5). Shorter or longer formats tend to correlate with lower ratings.
+Ratings peak for films with runtimes between 90–120 minutes (mean = 7.5). Shorter or longer formats tend to correlate with lower ratings (Figure 12).
 **Implication**:Viewer engagement is maximised within a standardised runtime threshold.
 
 ### 4. Age and Longevity of Content
 
-Older films (>20 years) sustain higher average ratings (mean = 8.5) compared to recent productions (1–3 years; mean = 6.0).
+Older films (>20 years) sustain higher average ratings (mean = 8.5)(Figure 7) compared to recent productions (1–3 years; mean = 6.0)(Figure 14).
 **Implication**:Legacy content benefits from curation and nostalgia; newer content faces saturation and discovery challenges.
 
 ## Strategic Recommendations for New Market Entrant
@@ -141,19 +141,6 @@ A differentiated, quality-first strategy that leverages genre insights, runtime 
 
 
 
-
-
-
-
-
-
-
-## Data analysis
-
-## Results
-
-##Discussion
-
 #Question4 Billionaires
 
 
@@ -163,15 +150,65 @@ We used `r cite_r("r-references.bib")` for all our analyses.
 
 ##Discussion
 
-#Question5 Health
+# Question 5 Health
+
+## On Air Script
+For the 9-to-5 gamer: 1 hour of extra sleep beats 1 hour on the treadmill. Data shows stress-free living is your real cheat code.
+
+We've been told for years to 'exercise more'—but new data reveals the real game-changers: sleep and stress management. Here's the proof: Adults with poor sleep and high stress gained 7–10 pounds more than those with good sleep and low stress—based on regression analysis (p<0.01). The worst hit? Early-career professionals (ages 30–39), who saw up to 10 pounds more weight gain when stressed—even if they exercised. Why this matters: Gym memberships won't fix this. The solution? Protect your sleep: Aim for 7–9 hours, and keep a consistent schedule—it's your metabolic lifeline. Tame stress: Short walks, 5-minute breathing exercises, or setting work boundaries can slash health risks. Bottom line? Small changes to sleep and stress beat marathon workouts. Start tonight—your body will thank you.
+
+```{r sleep-stress-boxplot, out.width="90%"}
+knitr::include_graphics("C:/Users/pmnha/my-new-project/22660348/Question5/Results/Sleep_Stress_Boxplot.png")
+
+```
+
+```{r sleep-risk-pivot ,message=FALSE, warning=FALSE }
+library(readr)
+library(knitr)
+weight_summary <- read_csv("C:/Users/pmnha/my-new-project/22660348/Question5/Results/Weight_Change_Summary.csv")
+kable(weight_summary, caption = "Weight Change Summary")
+sleep_pivot <- read_csv("C:/Users/pmnha/my-new-project/22660348/Question5/Results/Sleep_Risk_Pivot.csv")
+kable(sleep_pivot, caption = "Sleep Risk Pivot Summary")
+stress_pivot <- read_csv("C:/Users/pmnha/my-new-project/22660348/Question5/Results/Stress_Risk_Pivot.csv")
+kable(sleep_pivot, caption = "Stress Risk Pivot Summary")
+```
+
+
+\newpage
+```{r regression-txt-output, results='asis'}
+cat(readLines("C:/Users/pmnha/my-new-project/22660348/Question5/Results/Regression_Models.txt"), sep = "\n")
+```
+
+### **Key Findings on Health Determinants**  
+1. **Sleep Quality is Critical**:  
+   - Poor sleep correlates with **-7.2 lbs** weight gain (*p<0.01*), surpassing the impact of physical activity (non-significant coefficients).  
+   - Teens and early-career adults with poor sleep show the worst outcomes (**-7.7 to -8.0 lbs** mean weight change).Teens are abstracted from main analysis as their n is very small , n =5 .  
+
+2. **Stress Drives Negative Outcomes**:  
+   - High stress alone leads to **-4.5 lbs** weight gain (*p<0.1*).  
+   - Stress combined with poor sleep exacerbates effects, especially in younger age groups (interaction terms up to **-10.0 lbs**, *p<0.01*).  
+
+3. **Sedentary Lifestyle Modifies Risk**:  
+   - Sedentary individuals (red dots, Figure 16) show higher weight variability, but sleep/stress dominate overall trends.  
+
+
+### **Practical Recommendations**  
+- **Prioritise Sleep Hygiene**: Consistent sleep schedules improve metabolic health more than moderate exercise.  
+- **Stress Management**: Mindfulness or flexible work policies could mitigate high-stress impacts, particularly for younger adults.  
+- **Targeted Interventions**: Early-career professionals need tailored programs addressing sleep and stress.  
+
+
+### **Slide Deck Outline**  
+1. **Title Slide**: Sleep Over Squats
+2. **Key Chart**: Figure 16 (weight change by sleep/stress groups, colored by sedentary status).  
+3. **Regression Snapshot**: Highlight significant coefficients (sleep, stress, age interactions).  
+4. **Call to Action**: "Policy Focus: Sleep & Stress > Gym Memberships.  
 
 
 
-## Data analysis
-We used `r cite_r("r-references.bib")` for all our analyses.
-##Results
+ 
 
-##Discussion
+
 
 
 

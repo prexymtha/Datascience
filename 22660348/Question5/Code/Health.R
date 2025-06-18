@@ -4,7 +4,7 @@
 
 # Load required packages efficiently with pacman (installs if missing)
 if (!require("pacman")) install.packages("pacman")
-pacman::p_load(tidyverse, skimr, kableExtra, broom, GGally, readr, future, furrr)
+pacman::p_load(tidyverse, skimr, kableExtra, broom, GGally, readr, future, furrr,modelsummary)
 
 
 # --------------------------------------------------------------------------------------
@@ -16,32 +16,6 @@ load_health_data <- function(path) {
   #' @param path Path to CSV file
   #' @return Tibble with health data
   read_csv(path, col_names = TRUE)
-}
-
-create_data_dictionary <- function() {
-  #' Create data dictionary for reference
-  #' @return Formatted kable table
-  tribble(
-    ~Variable, ~Description,
-    "Participant ID", "Unique identifier for each participant.",
-    "Age", "Participant's age (years).",
-    "Gender", "Participant's gender (M/F).",
-    "Current Weight (lbs)", "Baseline weight at study start.",
-    "BMR (Calories)", "Basal Metabolic Rate (calories burned at rest).",
-    "Daily Calories Consumed", "Total daily caloric intake.",
-    "Daily Caloric Surplus/Deficit", "Calories consumed minus BMR.",
-    "Weight Change (lbs)", "Change in weight over the study period.",
-    "Duration (weeks)", "Length of the study period in weeks.",
-    "Physical Activity Level", "Activity level: Sedentary, Lightly, Moderately, Very Active.",
-    "Macronutrient Breakdown", "Diet composition: carbs, proteins, fats (%).",
-    "Sleep Quality", "Self-reported: Poor, Fair, Good, Excellent.",
-    "Stress Level", "Self-reported stress score (1-10)."
-  ) %>%
-    kable(booktabs = TRUE,
-          caption = "Table 1: Data Dictionary - Variable Descriptions",
-          col.names = c("Variable", "Description"),
-          align = c("l", "l")) %>%
-    kable_styling(latex_options = c("hold_position", "striped"), font_size = 10)
 }
 
 # --------------------------------------------------------------------------------------
@@ -153,7 +127,7 @@ summarize_calories_activity <- function(data) {
 }
 
 # --------------------------------------------------------------------------------------
-# Modeling Functions
+# Modeling Functions (Knit them nicely check library )
 # --------------------------------------------------------------------------------------
 
 fit_sleep_stress_model <- function(data) {
@@ -229,7 +203,7 @@ create_stress_pivot_table <- function(data) {
 # --------------------------------------------------------------------------------------
 # Optimized Main Execution
 # --------------------------------------------------------------------------------------
-main_analysis <- function(data_path, results_dir = "Results") {
+main_analysis <- function(data_path, results_dir = "C:/Users/pmnha/my-new-project/22660348/Question5/Results") {
   # Create output directory if it doesn't exist
   if (!dir.exists(results_dir)) dir.create(results_dir)
   
@@ -256,13 +230,17 @@ main_analysis <- function(data_path, results_dir = "Results") {
   write_csv(weight_summary, file.path(results_dir, "Weight_Change_Summary.csv"))
   write_csv(calories_summary, file.path(results_dir, "Caloric_Activity_Summary.csv"))
   
-  # --- Regression Models ---
+  # --- Regression Models --- why are they only two regression sets they were supposed to be 3 ? Check my notes 
   model1 <- fit_sleep_stress_model(data)
   model2 <- fit_stress_age_model(data)
   
-  # Save model summaries as text
-  write_lines(capture.output(summary(model1)), file.path(results_dir, "Sleep_Stress_Model.txt"))
-  write_lines(capture.output(summary(model2)), file.path(results_dir, "Stress_Age_Model.txt"))
+  # Save modelsummary output to PDF or Word
+  modelsummary(
+    list("Sleep-Stress Interaction" = model1,
+         "Stress-Age Interaction" = model2),
+    stars = c('*' = 0.1, '**' = 0.05, '***' = 0.01),
+    output = file.path(results_dir, "Regression_Models.txt")  # or .tex / .html
+  )
   
   # --- Visualizations ---
   sleep_stress_plot <- create_boxplot_sleep_stress(data)
@@ -274,6 +252,15 @@ main_analysis <- function(data_path, results_dir = "Results") {
   
   write_csv(sleep_pivot, file.path(results_dir, "Sleep_Risk_Pivot.csv"))
   write_csv(stress_pivot, file.path(results_dir, "Stress_Risk_Pivot.csv"))
+  
+  #OnAirScript 
+  # Save the on-air script to a text file
+  writeLines("On-Air Script\nChannel 1 Health Segment\n\n\"We've been told for years to 
+             'exercise more'—but new data reveals the real game-changers: 
+             sleep and stress management.\n\nHere's the proof: 
+             Adults with poor sleep and high stress gained 7–10 
+             pounds more than those with good sleep and low stress—based on regression analysis (p<0.01). The worst hit? Early-career professionals (ages 30–39), who saw up to 10 pounds more weight gain when stressed—even if they exercised.\n\nWhy this matters: Gym memberships won't fix this. The solution?\nProtect your sleep: Aim for 7–9 hours, and keep a consistent schedule—it's your metabolic lifeline.\nTame stress: Short walks, 5-minute breathing exercises, or setting work boundaries can slash health risks.\n\nBottom line? Small changes to sleep and stress beat marathon workouts. Start tonight—your body will thank you.\"",
+    file.path(results_dir, "OnAir.txt"))
   
   # --- Log Completion ---
   message("Analysis complete. All results saved to ", results_dir)
