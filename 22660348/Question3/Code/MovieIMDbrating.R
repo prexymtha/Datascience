@@ -3,8 +3,9 @@ library(ggthemes)
 
 # Load and clean data (pure function)
 prepare_movie_data <- function() {
-  titles <- read_rds("Precious Project/Exam/titles.rds")
-  movies <- read_csv("Precious Project/Exam/netflix_movies.csv")
+  # Load and prepare data
+  titles <- readRDS("C:/Users/pmnha/my-new-project/22660348/Question3/Data/titles.rds")
+  movies <- read_csv("Question3/Data/netflix_movies.csv")
   
   titles %>%
     filter(type == "MOVIE") %>%
@@ -51,18 +52,12 @@ age_stats <- movie_data %>%
   )
 
 
-ggplot(movie_data, aes(x = runtime_bins, y = imdb_score, fill = runtime_bins)) +
+IMDbrating <- ggplot(movie_data, aes(x = runtime_bins, y = imdb_score, fill = runtime_bins)) +
   geom_violin(alpha = 0.7) +
   geom_boxplot(width = 0.1, fill = "white") +
   geom_hline(
     yintercept = optimal_runtime$avg_rating, 
     linetype = "dashed", color = "#E50914"
-  ) +
-  annotate(
-    "text", 
-    x = 4, y = optimal_runtime$avg_rating + 0.2,
-    label = paste("Peak: ", optimal_runtime$runtime_bins, " (", round(optimal_runtime$avg_rating, 1), ")"),
-    color = "#E50914"
   ) +
   labs(
     title = "IMDb Ratings by Movie Runtime",
@@ -73,7 +68,20 @@ ggplot(movie_data, aes(x = runtime_bins, y = imdb_score, fill = runtime_bins)) +
   theme_minimal() +
   theme(legend.position = "none")
 
-ggplot(age_stats, aes(x = age_group, y = avg_rating, group = 1)) +
+#save
+#save
+ggsave(
+  filename = "IMDbratings.png",  # or use .pdf/.jpg etc.
+  plot = IMDbrating,
+  path = "C:/Users/pmnha/my-new-project/22660348/Question3/Results",
+  width = 10,
+  height = 6,
+  dpi = 300
+)
+
+
+
+audienceengage <- ggplot(age_stats, aes(x = age_group, y = avg_rating, group = 1)) +
   geom_line(color = "#E50914", linewidth = 1.5) +
   geom_point(size = 3, color = "#221F1F") +
   labs(
@@ -81,3 +89,13 @@ ggplot(age_stats, aes(x = age_group, y = avg_rating, group = 1)) +
     x = "Age Group (years)", y = "Avg IMDb Rating"
   ) +
   theme_minimal()
+
+#save
+ggsave(
+  filename = "audienceengage.png",  # or use .pdf/.jpg etc.
+  plot = audienceengage,
+  path = "C:/Users/pmnha/my-new-project/22660348/Question3/Results",
+  width = 10,
+  height = 6,
+  dpi = 300
+)

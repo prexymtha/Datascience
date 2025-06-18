@@ -4,8 +4,8 @@ library(countrycode)
 # Load data (pure function with error handling)
 load_netflix_data <- function() {
   tryCatch({
-    titles <- read_rds("Precious Project/Exam/titles.rds")
-    movies <- read_csv("Precious Project/Exam/netflix_movies.csv")
+    titles <- readRDS("C:/Users/pmnha/my-new-project/22660348/Question3/Data/titles.rds")
+    movies <- read_csv("Question3/Data/netflix_movies.csv")
     
     titles %>%
       filter(type == "MOVIE") %>%
@@ -50,7 +50,7 @@ significant_countries <- netflix_data %>%
   pull(country_name)
 
 
-ggplot(
+top5movies <- ggplot(
   genre_distribution %>% filter(country_name %in% significant_countries),
   aes(x = reorder(country_name, genre_pct), y = genre_pct, fill = primary_genre)
 ) +
@@ -65,8 +65,21 @@ ggplot(
   theme_minimal() +
   theme(plot.title = element_text(face = "bold"))
 
+#save
+ggsave(
+  filename = "top5movies.png",  # or use .pdf/.jpg etc.
+  plot = top5movies,
+  path = "C:/Users/pmnha/my-new-project/22660348/Question3/Results",
+  width = 10,
+  height = 6,
+  dpi = 300
+)
 
-genre_distribution %>%
+
+
+
+# Assign to variable
+genre_rating_plot <- genre_distribution %>%
   filter(country_name %in% significant_countries) %>%
   ggplot(aes(x = genre_pct, y = avg_rating, color = primary_genre)) +
   geom_point(size = 3) +
@@ -77,3 +90,13 @@ genre_distribution %>%
     x = "Genre Share (%)", y = "Avg IMDb Rating"
   ) +
   theme_minimal()
+
+# Save the plot
+ggsave(
+  filename = "genre_rating_plot.png",
+  plot = genre_rating_plot,
+  path = "C:/Users/pmnha/my-new-project/22660348/Question3/Results",
+  width = 12,
+  height = 8,
+  dpi = 300
+)

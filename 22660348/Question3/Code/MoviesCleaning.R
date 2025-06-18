@@ -18,9 +18,9 @@ library(dplyr)       # Data manipulation
 # ===========================
 # Import data
 # ===========================
-title <- read_rds("Precious Project/Exam/titles.rds")
-credits <- read_rds("Precious Project/Exam/credits.rds")
-movies <- read_csv("Precious Project/Exam/netflix_movies.csv")
+titles <- readRDS("C:/Users/pmnha/my-new-project/22660348/Question3/Data/titles.rds")
+credits <- readRDS("C:/Users/pmnha/my-new-project/22660348/Question3/Data/credits.rds")
+movies <- read_csv("Question3/Data/netflix_movies.csv")
 
 # ===========================
 # Merge and clean dataset

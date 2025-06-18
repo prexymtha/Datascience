@@ -4,8 +4,8 @@ library(ggthemes)
 library(scales)
 
 # Load and prepare data
-titles <- read_rds("Precious Project/Exam/titles.rds")
-movies <- read_csv("Precious Project/Exam/netflix_movies.csv")
+titles <- readRDS("C:/Users/pmnha/my-new-project/22660348/Question3/Data/titles.rds")
+movies <- read_csv("Question3/Data/netflix_movies.csv")
 
 # Merge and clean data
 netflix_data <- titles %>%
@@ -34,7 +34,7 @@ content_distribution <- content_distribution %>%
   )
 
 # Plot
-ggplot(content_distribution %>% head(20), aes(x = reorder(country_name, content_count), y = content_count)) +
+top20creators <- ggplot(content_distribution %>% head(20), aes(x = reorder(country_name, content_count), y = content_count)) +
   geom_bar(stat = "identity", aes(fill = color)) +
   scale_fill_identity() +
   geom_text(aes(label = percent(pct_total, accuracy = 0.1)), hjust = -0.1, size = 3) +
@@ -51,7 +51,18 @@ ggplot(content_distribution %>% head(20), aes(x = reorder(country_name, content_
     plot.subtitle = element_text(size = 11)
   )
 
-# Analysis 2: Ratings by country (minimum 30 movies for statistical significance)
+#save
+ggsave(
+  filename = "top20creators.png",  # or use .pdf/.jpg etc.
+  plot = top20creators,
+  path = "C:/Users/pmnha/my-new-project/22660348/Question3/Results",
+  width = 10,
+  height = 6,
+  dpi = 300
+)
+
+
+# Analysis 2: Ratings by country (minimum 30 movies for statistical significance- Nlarge)
 ratings_by_country <- netflix_data %>%
   group_by(country_name) %>%
   summarise(
@@ -68,7 +79,7 @@ ratings_by_country <- ratings_by_country %>%
   mutate(color = ifelse(country_name == "Japan", "#E50914", "gray70"))
 
 # Plot
-ggplot(ratings_by_country, aes(x = reorder(country_name, avg_rating), y = avg_rating)) +
+countryrating <- ggplot(ratings_by_country, aes(x = reorder(country_name, avg_rating), y = avg_rating)) +
   geom_pointrange(aes(ymin = avg_rating - rating_sd, ymax = avg_rating + rating_sd, color = color), 
                   size = 0.8) +
   geom_text(aes(label = round(avg_rating, 1)), hjust = -0.4, size = 3.2, color = "black") +
@@ -86,6 +97,16 @@ ggplot(ratings_by_country, aes(x = reorder(country_name, avg_rating), y = avg_ra
     panel.grid.major = element_blank(),
     panel.grid.minor = element_blank()
   )
+
+ggsave(
+  filename = "countryrating.png",  # or use .pdf/.jpg etc.
+  plot = countryrating,
+  path = "C:/Users/pmnha/my-new-project/22660348/Question3/Results",
+  width = 10,
+  height = 6,
+  dpi = 300
+)
+
 
 
 # Analysis 3: Emerging markets analysis
@@ -106,7 +127,7 @@ emerging_market_performance <- emerging_market_performance %>%
     highlight = ifelse(country_name %in% c("South Korea", "India"), TRUE, FALSE)
   )
 
-ggplot(emerging_market_performance, aes(x = content_count, y = avg_rating)) +
+emergers <- ggplot(emerging_market_performance, aes(x = content_count, y = avg_rating)) +
   geom_point(aes(size = performance_ratio, color = highlight), alpha = 0.9) +
   geom_text(aes(label = country_name), 
             vjust = -1, size = 3.2, fontface = "bold", color = "black") +
@@ -124,3 +145,14 @@ ggplot(emerging_market_performance, aes(x = content_count, y = avg_rating)) +
     plot.subtitle = element_text(size = 9.5),
     panel.grid = element_blank()
   )
+
+#save
+ggsave(
+  filename = "emergers.png",  # or use .pdf/.jpg etc.
+  plot = emergers,
+  path = "C:/Users/pmnha/my-new-project/22660348/Question3/Results",
+  width = 10,
+  height = 6,
+  dpi = 300
+)
+

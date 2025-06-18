@@ -5,8 +5,9 @@ library(patchwork)
 library(ggthemes)
 
 # Load and prepare data
-titles <- read_rds("Precious Project/Exam/titles.rds")
-movies <- read_csv("Precious Project/Exam/netflix_movies.csv")
+titles <- readRDS("C:/Users/pmnha/my-new-project/22660348/Question3/Data/titles.rds")
+movies <- read_csv("Question3/Data/netflix_movies.csv")
+
 
 # Merge and clean data
 netflix_data <- titles %>%
@@ -32,7 +33,7 @@ genre_year_heatmap <- netflix_data %>%
   complete(primary_genre, release_year, fill = list(avg_rating = NA))
 
 # Heatmap visualization
-p1 <- ggplot(genre_year_heatmap, aes(x = release_year, y = reorder(primary_genre, avg_rating, na.rm = TRUE))) +
+genrescore  <- ggplot(genre_year_heatmap, aes(x = release_year, y = reorder(primary_genre, avg_rating, na.rm = TRUE))) +
   geom_tile(aes(fill = avg_rating), color = "white") +
   scale_fill_gradient2(low = "#B81D24", mid = "#F5F5F1", high = "#221F1F", 
                        midpoint = median(netflix_data$imdb_score, na.rm = TRUE),
@@ -44,7 +45,16 @@ p1 <- ggplot(genre_year_heatmap, aes(x = release_year, y = reorder(primary_genre
   theme(plot.title = element_text(face = "bold"),
         axis.text.x = element_text(angle = 45, hjust = 1))
 
-p1
+#save
+ggsave(
+  filename = "genrescore.png",  # or use .pdf/.jpg etc.
+  plot = genrescore,
+  path = "C:/Users/pmnha/my-new-project/22660348/Question3/Results",
+  width = 10,
+  height = 6,
+  dpi = 300
+)
+
 
 # Analysis 2: Optimal Movie Duration
 runtime_analysis <- netflix_data %>%
@@ -56,7 +66,7 @@ runtime_analysis <- netflix_data %>%
   ) %>%
   filter(count >= 10)
 
-p2 <- ggplot(runtime_analysis, aes(x = runtime_bins, y = avg_rating)) +
+opduration <- ggplot(runtime_analysis, aes(x = runtime_bins, y = avg_rating)) +
   geom_col(fill = "lightblue", width = 0.7) +
   geom_smooth(aes(group = 1), method = "loess", se = FALSE, color = "black", linetype = "dashed") +
   geom_text(aes(label = round(avg_rating, 1)), vjust = -0.5, size = 3, color = "black") +
@@ -73,7 +83,17 @@ p2 <- ggplot(runtime_analysis, aes(x = runtime_bins, y = avg_rating)) +
     panel.grid = element_blank()
   )
 
-p2
+#save
+ggsave(
+  filename = "opduration.png",  # or use .pdf/.jpg etc.
+  plot = opduration,
+  path = "C:/Users/pmnha/my-new-project/22660348/Question3/Results",
+  width = 10,
+  height = 6,
+  dpi = 300
+)
+
+
 
 # Analysis 3: Content Age vs. Viewership (using imdb_score as proxy)
 age_analysis <- netflix_data %>%
@@ -86,7 +106,7 @@ age_analysis <- netflix_data %>%
   )
 
 # Age vs. viewership visualization
-p3 <- ggplot(netflix_data, aes(x = age, y = imdb_score)) +
+viewership <- ggplot(netflix_data, aes(x = age, y = imdb_score)) +
   geom_point(alpha = 0.3, color = "#E50914") +
   geom_smooth(method = "gam", color = "#221F1F") +
   labs(title = "Content Age vs. Audience Engagement",
@@ -95,5 +115,14 @@ p3 <- ggplot(netflix_data, aes(x = age, y = imdb_score)) +
   theme_minimal() +
   theme(plot.title = element_text(face = "bold"))
 
-# Combine plots
-p3
+# Save plots
+#save
+ggsave(
+  filename = "viewership.png",  #save png
+  plot = viewership,
+  path = "C:/Users/pmnha/my-new-project/22660348/Question3/Results",
+  width = 10,
+  height = 6,
+  dpi = 300
+)
+
