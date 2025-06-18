@@ -36,7 +36,71 @@ knitr::opts_chunk$set(cache.extra = knitr::rand_seed)
 ```
 
 # Question 1 Baby Names 
- 
+```{r bubble-image, echo=FALSE, out.width="90%"}
+knitr::include_graphics("C:/Users/pmnha/my-new-project/22660348/Question1/Results/nametime.png")
+knitr::include_graphics("C:/Users/pmnha/my-new-project/22660348/Question1/Results/yearonyear.png")
+knitr::include_graphics("C:/Users/pmnha/my-new-project/22660348/Question1/Results/namepopularity.png")
+knitr::include_graphics("C:/Users/pmnha/my-new-project/22660348/Question1/Results/fadsonewonders.png")
+knitr::include_graphics("C:/Users/pmnha/my-new-project/22660348/Question1/Results/mediaimpact.jpg")
+knitr::include_graphics("C:/Users/pmnha/my-new-project/22660348/Question1/Results/musicimpact.png")
+knitr::include_graphics("C:/Users/pmnha/my-new-project/22660348/Question1/Results/bubble.png")
+
+```
+
+### **Baby Naming Trends in the U.S.**
+#### **Prepared for: New York-Based Kids’ Toy Design Agency**
+#### **Date: June 18, 2025**
+
+#### **Objective**
+This report provides a strategic analysis of U.S. baby naming trends to inform character name selection for toy design. The analysis focuses on five key graphs, highlighting naming longevity, surges in popularity, gender-based stability, cultural influences, and the rise of disposable names.
+
+
+### **Key Findings & Strategic Insights**
+
+#### **1. Longevity of Baby Names in the Top 25**
+- **Observation:** Certain names exhibit remarkable persistence in popularity, remaining in the top 25 for over a decade.
+- **Strategic Insight:** Names with historical longevity (e.g., William, Elizabeth, James, Mary) signal cultural stability and trustworthiness, making them ideal for classic toy characters.
+
+#### **2. Year-on-Year Surges in Popularity**
+- **Observation:** Names experience sudden spikes due to external influences such as pop culture, politics, and media.
+- **Example:** The name "Linda" surged by **89.1% in 1947**, likely influenced by Hit song “Linda” (1946)by Jack Lawrence.
+- **Strategic Insight:** Leveraging trending names from movies, music, and social movements can enhance toy market relevance.
+
+#### **3. Gender-Based Stability in Naming Trends**
+- **Observation:** Boys' names exhibit **15-20% greater stability** in popularity compared to girls' names.
+- **Strategic Insight:** Male character names  emphasize tradition and reliability, while female names can reflect evolving cultural trends.Or parents' likely conservatism with boys' names compared to girls' which are trend-sensitive
+
+#### **4. Influence of HBO & Billboard Artists on Naming Trends**
+- **Observation:** TV shows and music significantly impact baby name choices.
+- **Example:** Names like "Whitney" surged in the 1980s due to Whitney Houston’s popularity.
+- **Strategic Insight:** Incorporating names inspired by entertainment icons can enhance brand appeal.Integrating a real-time monitoring of children's media into product-development.
+
+#### **5. The Rise of Disposable Baby Names**
+- **Observation:** One-time top 25 names became **5x more common after 1960**, indicating a shift toward short-lived naming trends showing decadal patterns (confirming the suspicion).
+- **Strategic Insight:** Short-lived trendy names may work well for limited-edition toy lines or shorter product cycles and name refresh strategies , but should must be  balanced with timeless names for long-term brand equity.
+
+
+### **Recommendations**
+1. **Blend Classic & Trendy Names:** Use a mix of historically persistent names and trending names to maximize appeal.Maybe , legacy lines using persistent names (> 100 ), trendy lines using current events and decade lines that envoke nostalgic names from specific era like Whitney.
+2. **Leverage Pop Culture Data:** Monitor entertainment trends to predict future naming spikes.
+3. **Gender-Based Strategy:** Design male characters with stable, traditional names and female characters with dynamic, evolving names.
+4. **Optimise for Longevity:** Prioritise names with proven staying power for flagship toy lines.You never go with Elizabeth/William
+5. **Monitor Disposable Name Trends:** Use short-lived names for seasonal or limited-edition products.
+
+---
+
+### **Additional Research & References**
+To further refine the analysis, external research was conducted on baby naming trends, factors influencing names, and naming longevity:
+
+- **General Trends in U.S. Baby Names:** [GitHub Analysis](https://github.com/brettc17/Baby-Name-Trends-Exploring-American-Naming-Patterns)
+- **Political & Cultural Influences on Naming:** [Daily Trojan](https://dailytrojan.com/2025/06/18/parents-political-beliefs-shape-us-baby-names/)
+- **Psychological & Sociological Factors in Naming:** [Life by Name](https://lifebyname.com/the-science/)
+- **Historical Longevity of Baby Names:** [American Name Society](https://www.americannamesociety.org/long-term-sociolinguistics-trends-and-phonological-patterns-of-american-names/)
+
+
+
+
+
 
 
 

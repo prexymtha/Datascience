@@ -341,7 +341,7 @@ mediaimpact <- ggplot(top_characters, aes(x = reorder(name_label, impact_ratio),
 
 # Save the plot
 ggsave(
-  filename = "mediaimpact.png",  # change the filename as needed
+  filename = "mediaimpact.jpg",  # change the filename as needed
   plot = mediaimpact,            # replace with your ggplot object
   path = "C:/Users/pmnha/my-new-project/22660348/Question1/Results",
   width = 8,
