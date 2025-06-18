@@ -3,7 +3,7 @@
 \PassOptionsToPackage{hyphens}{url}
 %
 \documentclass[
-  man]{apa6}
+  man,floatsintext]{apa6}
 \usepackage{amsmath,amssymb}
 \usepackage{iftex}
 \ifPDFTeX
@@ -188,55 +188,30 @@
   }
 {}{\PatchFailed}
 \makeatother
-\keywords{keywords\newline\indent Word count: X}
-\DeclareDelayedFloatFlavor{ThreePartTable}{table}
-\DeclareDelayedFloatFlavor{lltable}{table}
-\DeclareDelayedFloatFlavor*{longtable}{table}
-\makeatletter
-\renewcommand{\efloat@iwrite}[1]{\immediate\expandafter\protected@write\csname efloat@post#1\endcsname{}}
-\makeatother
-\usepackage{lineno}
-
-\linenumbers
 \usepackage{csquotes}
 \usepackage{bookmark}
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \urlstyle{same}
 \hypersetup{
   pdftitle={Data Science Exam},
-  pdfauthor={Precious Nhamo1},
+  pdfauthor={Precious Nhamo},
   pdflang={en-EN},
-  pdfkeywords={keywords},
   hidelinks,
   pdfcreator={LaTeX via pandoc}}
 
 \title{Data Science Exam}
-\author{Precious Nhamo\textsuperscript{1}}
+\author{Precious Nhamo\textsuperscript{}}
 \date{}
 
 
-\shorttitle{22660348}
+\shorttitle{SHORT TITLE}
 
-\authornote{
-
-Add complete departmental affiliations for each author here. Each new line herein must be indented, like this line.
-
-Enter author note here.
-
-Correspondence concerning this article should be addressed to Precious Nhamo. E-mail: \href{mailto:22660348@sun.ac.za}{\nolinkurl{22660348@sun.ac.za}}
-
-}
-
-\affiliation{\vspace{0.5cm}\textsuperscript{1} Stellenbosch University}
+\affiliation{\phantom{0}}
 
 \abstract{%
-One or two sentences providing a \textbf{basic introduction} to the field, comprehensible to a scientist in any discipline.
-Two to three sentences of \textbf{more detailed background}, comprehensible to scientists in related disciplines.
-One sentence clearly stating the \textbf{general problem} being addressed by this particular study.
-One sentence summarizing the main result (with the words ``\textbf{here we show}'' or their equivalent).
-Two or three sentences explaining what the \textbf{main result} reveals in direct comparison to what was thought to be the case previously, or how the main result adds to previous knowledge.
-One or two sentences to put the results into a more \textbf{general context}.
-Two or three sentences to provide a \textbf{broader perspective}, readily comprehensible to a scientist in any discipline.
+This document comprises the responses to \textbf{Questions 1 to 5} of the 2025 Data Science examination,
+along with separate analyses (e.g., a PowerPoint presentation) completed in accordance with the exam
+instructions and organised within the designated folder.
 }
 
 
@@ -244,23 +219,46 @@ Two or three sentences to provide a \textbf{broader perspective}, readily compre
 \begin{document}
 \maketitle
 
-\section{Methods}\label{methods}
+\section{Question1}\label{question1}
 
 We report how we determined our sample size, all data exclusions (if any), all manipulations, and all measures in the study.
 
-\subsection{Participants}\label{participants}
-
-\subsection{Material}\label{material}
-
-\subsection{Procedure}\label{procedure}
-
 \subsection{Data analysis}\label{data-analysis}
 
-We used R (Version 4.4.3; R Core Team, 2025) and the R-packages \emph{papaja} (Version 0.1.3; Aust \& Barth, 2024) and \emph{tinylabels} (Version 0.2.5; Barth, 2025) for all our analyses.
+We used R (Version 4.4.3; R Core Team, 2025) and the R-packages \emph{dplyr} (Version 1.1.4; Wickham, François, Henry, Müller, \& Vaughan, 2023), \emph{fastDummies} (Version 1.7.5; Kaplan, 2025), \emph{forcats} (Version 1.0.0; Wickham, 2023a), \emph{ggplot2} (Version 3.5.2; Wickham, 2016), \emph{ggrepel} (Version 0.9.6; Slowikowski, 2024), \emph{lubridate} (Version 1.9.4; Grolemund \& Wickham, 2011), \emph{papaja} (Version 0.1.3; Aust \& Barth, 2024), \emph{patchwork} (Version 1.3.0; Pedersen, 2024), \emph{purrr} (Version 1.0.4; Wickham \& Henry, 2025), \emph{readr} (Version 2.1.5; Wickham, Hester, \& Bryan, 2024), \emph{stringr} (Version 1.5.1; Wickham, 2023b), \emph{tibble} (Version 3.2.1; Müller \& Wickham, 2023), \emph{tidyr} (Version 1.3.1; Wickham, Vaughan, \& Girlich, 2024), \emph{tidyverse} (Version 2.0.0; Wickham et al., 2019), and \emph{tinylabels} (Version 0.2.5; Barth, 2025) for all our analyses.
 
-\section{Results}\label{results}
+\subsection{Results}\label{results}
 
-\section{Discussion}\label{discussion}
+\#\#Discussion
+
+\#Question2
+\#\# Data analysis
+We used R (Version 4.4.3; R Core Team, 2025) and the R-packages \emph{dplyr} (Version 1.1.4; Wickham et al., 2023), \emph{fastDummies} (Version 1.7.5; Kaplan, 2025), \emph{forcats} (Version 1.0.0; Wickham, 2023a), \emph{ggplot2} (Version 3.5.2; Wickham, 2016), \emph{ggrepel} (Version 0.9.6; Slowikowski, 2024), \emph{lubridate} (Version 1.9.4; Grolemund \& Wickham, 2011), \emph{papaja} (Version 0.1.3; Aust \& Barth, 2024), \emph{patchwork} (Version 1.3.0; Pedersen, 2024), \emph{purrr} (Version 1.0.4; Wickham \& Henry, 2025), \emph{readr} (Version 2.1.5; Wickham, Hester, et al., 2024), \emph{stringr} (Version 1.5.1; Wickham, 2023b), \emph{tibble} (Version 3.2.1; Müller \& Wickham, 2023), \emph{tidyr} (Version 1.3.1; Wickham, Vaughan, et al., 2024), \emph{tidyverse} (Version 2.0.0; Wickham et al., 2019), and \emph{tinylabels} (Version 0.2.5; Barth, 2025) for all our analyses.
+
+\#\#Results
+
+\#\#Discussion
+
+\#Question3
+\#\# Data analysis
+We used R (Version 4.4.3; R Core Team, 2025) and the R-packages \emph{dplyr} (Version 1.1.4; Wickham et al., 2023), \emph{fastDummies} (Version 1.7.5; Kaplan, 2025), \emph{forcats} (Version 1.0.0; Wickham, 2023a), \emph{ggplot2} (Version 3.5.2; Wickham, 2016), \emph{ggrepel} (Version 0.9.6; Slowikowski, 2024), \emph{lubridate} (Version 1.9.4; Grolemund \& Wickham, 2011), \emph{papaja} (Version 0.1.3; Aust \& Barth, 2024), \emph{patchwork} (Version 1.3.0; Pedersen, 2024), \emph{purrr} (Version 1.0.4; Wickham \& Henry, 2025), \emph{readr} (Version 2.1.5; Wickham, Hester, et al., 2024), \emph{stringr} (Version 1.5.1; Wickham, 2023b), \emph{tibble} (Version 3.2.1; Müller \& Wickham, 2023), \emph{tidyr} (Version 1.3.1; Wickham, Vaughan, et al., 2024), \emph{tidyverse} (Version 2.0.0; Wickham et al., 2019), and \emph{tinylabels} (Version 0.2.5; Barth, 2025) for all our analyses.
+\#\#Results
+
+\#\#Discussion
+
+\#Question4
+\#\# Data analysis
+We used R (Version 4.4.3; R Core Team, 2025) and the R-packages \emph{dplyr} (Version 1.1.4; Wickham et al., 2023), \emph{fastDummies} (Version 1.7.5; Kaplan, 2025), \emph{forcats} (Version 1.0.0; Wickham, 2023a), \emph{ggplot2} (Version 3.5.2; Wickham, 2016), \emph{ggrepel} (Version 0.9.6; Slowikowski, 2024), \emph{lubridate} (Version 1.9.4; Grolemund \& Wickham, 2011), \emph{papaja} (Version 0.1.3; Aust \& Barth, 2024), \emph{patchwork} (Version 1.3.0; Pedersen, 2024), \emph{purrr} (Version 1.0.4; Wickham \& Henry, 2025), \emph{readr} (Version 2.1.5; Wickham, Hester, et al., 2024), \emph{stringr} (Version 1.5.1; Wickham, 2023b), \emph{tibble} (Version 3.2.1; Müller \& Wickham, 2023), \emph{tidyr} (Version 1.3.1; Wickham, Vaughan, et al., 2024), \emph{tidyverse} (Version 2.0.0; Wickham et al., 2019), and \emph{tinylabels} (Version 0.2.5; Barth, 2025) for all our analyses.
+\#\#Results
+
+\#\#Discussion
+
+\#Question5
+\#\# Data analysis
+We used R (Version 4.4.3; R Core Team, 2025) and the R-packages \emph{dplyr} (Version 1.1.4; Wickham et al., 2023), \emph{fastDummies} (Version 1.7.5; Kaplan, 2025), \emph{forcats} (Version 1.0.0; Wickham, 2023a), \emph{ggplot2} (Version 3.5.2; Wickham, 2016), \emph{ggrepel} (Version 0.9.6; Slowikowski, 2024), \emph{lubridate} (Version 1.9.4; Grolemund \& Wickham, 2011), \emph{papaja} (Version 0.1.3; Aust \& Barth, 2024), \emph{patchwork} (Version 1.3.0; Pedersen, 2024), \emph{purrr} (Version 1.0.4; Wickham \& Henry, 2025), \emph{readr} (Version 2.1.5; Wickham, Hester, et al., 2024), \emph{stringr} (Version 1.5.1; Wickham, 2023b), \emph{tibble} (Version 3.2.1; Müller \& Wickham, 2023), \emph{tidyr} (Version 1.3.1; Wickham, Vaughan, et al., 2024), \emph{tidyverse} (Version 2.0.0; Wickham et al., 2019), and \emph{tinylabels} (Version 0.2.5; Barth, 2025) for all our analyses.
+\#\#Results
+
+\#\#Discussion
 
 \newpage
 
@@ -274,8 +272,47 @@ Aust, F., \& Barth, M. (2024). \emph{{papaja}: {Prepare} reproducible {APA} jour
 \bibitem[\citeproctext]{ref-R-tinylabels}
 Barth, M. (2025). \emph{{tinylabels}: Lightweight variable labels}. \url{https://doi.org/10.32614/CRAN.package.tinylabels}
 
+\bibitem[\citeproctext]{ref-R-lubridate}
+Grolemund, G., \& Wickham, H. (2011). Dates and times made easy with {lubridate}. \emph{Journal of Statistical Software}, \emph{40}(3), 1--25. Retrieved from \url{https://www.jstatsoft.org/v40/i03/}
+
+\bibitem[\citeproctext]{ref-R-fastDummies}
+Kaplan, J. (2025). \emph{fastDummies: Fast creation of dummy (binary) columns and rows from categorical variables}. Retrieved from \url{https://CRAN.R-project.org/package=fastDummies}
+
+\bibitem[\citeproctext]{ref-R-tibble}
+Müller, K., \& Wickham, H. (2023). \emph{Tibble: Simple data frames}. Retrieved from \url{https://CRAN.R-project.org/package=tibble}
+
+\bibitem[\citeproctext]{ref-R-patchwork}
+Pedersen, T. L. (2024). \emph{Patchwork: The composer of plots}. Retrieved from \url{https://CRAN.R-project.org/package=patchwork}
+
 \bibitem[\citeproctext]{ref-R-base}
 R Core Team. (2025). \emph{R: A language and environment for statistical computing}. Vienna, Austria: R Foundation for Statistical Computing. Retrieved from \url{https://www.R-project.org/}
+
+\bibitem[\citeproctext]{ref-R-ggrepel}
+Slowikowski, K. (2024). \emph{Ggrepel: Automatically position non-overlapping text labels with 'ggplot2'}. Retrieved from \url{https://CRAN.R-project.org/package=ggrepel}
+
+\bibitem[\citeproctext]{ref-R-ggplot2}
+Wickham, H. (2016). \emph{ggplot2: Elegant graphics for data analysis}. Springer-Verlag New York. Retrieved from \url{https://ggplot2.tidyverse.org}
+
+\bibitem[\citeproctext]{ref-R-forcats}
+Wickham, H. (2023a). \emph{Forcats: Tools for working with categorical variables (factors)}. Retrieved from \url{https://CRAN.R-project.org/package=forcats}
+
+\bibitem[\citeproctext]{ref-R-stringr}
+Wickham, H. (2023b). \emph{Stringr: Simple, consistent wrappers for common string operations}. Retrieved from \url{https://CRAN.R-project.org/package=stringr}
+
+\bibitem[\citeproctext]{ref-R-tidyverse}
+Wickham, H., Averick, M., Bryan, J., Chang, W., McGowan, L. D., François, R., \ldots{} Yutani, H. (2019). Welcome to the {tidyverse}. \emph{Journal of Open Source Software}, \emph{4}(43), 1686. \url{https://doi.org/10.21105/joss.01686}
+
+\bibitem[\citeproctext]{ref-R-dplyr}
+Wickham, H., François, R., Henry, L., Müller, K., \& Vaughan, D. (2023). \emph{Dplyr: A grammar of data manipulation}. Retrieved from \url{https://CRAN.R-project.org/package=dplyr}
+
+\bibitem[\citeproctext]{ref-R-purrr}
+Wickham, H., \& Henry, L. (2025). \emph{Purrr: Functional programming tools}. Retrieved from \url{https://CRAN.R-project.org/package=purrr}
+
+\bibitem[\citeproctext]{ref-R-readr}
+Wickham, H., Hester, J., \& Bryan, J. (2024). \emph{Readr: Read rectangular text data}. Retrieved from \url{https://CRAN.R-project.org/package=readr}
+
+\bibitem[\citeproctext]{ref-R-tidyr}
+Wickham, H., Vaughan, D., \& Girlich, M. (2024). \emph{Tidyr: Tidy messy data}. Retrieved from \url{https://CRAN.R-project.org/package=tidyr}
 
 \end{CSLReferences}
 

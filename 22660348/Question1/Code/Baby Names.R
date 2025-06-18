@@ -1,10 +1,11 @@
+
+#Load all libraries 
+
 library(readr)
-
 library(dplyr)
-
 library(ggplot2)
 
-
+#Load dataset
 
 baby_names<- readRDS("C:/Users/pmnha/my-new-project/22660348/Question1/Data/Baby_Names_By_US_State.rds")
 charts <- readRDS("C:/Users/pmnha/my-new-project/22660348/Question1/Data/charts.rds")
@@ -372,4 +373,7 @@ ggplot(decade_wonders, aes(x = decade, y = count, color = Gender)) +
     axis.title = element_text(size = 13)
     
   )
+
+#Other questions 
+
 
