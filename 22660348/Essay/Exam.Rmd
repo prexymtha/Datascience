@@ -35,12 +35,12 @@ set.seed(42)
 knitr::opts_chunk$set(cache.extra = knitr::rand_seed)
 ```
 
-# Question1 Baby Names 
-We report how we determined our sample size, all data exclusions (if any), all manipulations, and all measures in the study. 
+# Question 1 Baby Names 
+ 
 
 
 
-# Question2 Music Taste
+# Question 2 Music Taste
 
 ```{r include-image, echo=FALSE, fig.align='center', out.width='90%'}
 knitr::include_graphics("C:/Users/pmnha/my-new-project/22660348/Question2/Results/popalbums.png")
@@ -141,6 +141,8 @@ A differentiated, quality-first strategy that leverages genre insights, runtime 
 
 
 
+
+
 #Question4 Billionaires
 
 
@@ -149,6 +151,13 @@ We used `r cite_r("r-references.bib")` for all our analyses.
 ##Results
 
 ##Discussion
+
+
+
+
+
+
+
 
 # Question 5 Health
 
@@ -196,13 +205,6 @@ cat(readLines("C:/Users/pmnha/my-new-project/22660348/Question5/Results/Regressi
 - **Prioritise Sleep Hygiene**: Consistent sleep schedules improve metabolic health more than moderate exercise.  
 - **Stress Management**: Mindfulness or flexible work policies could mitigate high-stress impacts, particularly for younger adults.  
 - **Targeted Interventions**: Early-career professionals need tailored programs addressing sleep and stress.  
-
-
-### **Slide Deck Outline**  
-1. **Title Slide**: Sleep Over Squats
-2. **Key Chart**: Figure 16 (weight change by sleep/stress groups, colored by sedentary status).  
-3. **Regression Snapshot**: Highlight significant coefficients (sleep, stress, age interactions).  
-4. **Call to Action**: "Policy Focus: Sleep & Stress > Gym Memberships.  
 
 
 
