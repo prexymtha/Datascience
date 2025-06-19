@@ -1,4 +1,4 @@
-This is  a ready me for my data science exam , compilation and analysis of all results are in the Essay Folder with all the relevant explanations and analysis .
+This is  a Read me for my data science exam , compilation and analysis of all results are in the Essay Folder with all the relevant explanations and analysis .
 
 **FINAL RESULTS AND ANALYSIS OF ALL REQUIRED PDF IS IN FOLDER ESSAY - AS EXAMALLQUESTIONS**
 
@@ -85,8 +85,11 @@ run_genre_country_analysis()
 ```
 
 
-#Question 4 
-For question one , we evaluated the sources of wealth of all the billionaires in the United States by their source of wealth 
+# Question 4 
+
+For question one , we evaluated the sources of wealth of all the billionaires in the United States by their source of wealth .After which we did an analysis of top industries by market ( being either Developed , Emerging etc ) to see where the billionaires are concentrated in each region . We also analysed billionaired who inherited their wealth against those who didn't in all regions in comparison to the United States , we calculated the change in the growth of wealth and evalutated it by market type . Also did analysis of billionaired by age , gender and market type and a geospatial map to see where the concentration is at. The final report is included in the **ESSAY FOLDER** along other analysis
+
+# Function for execution 
 analyse_billionaires()
 
 
