@@ -1,0 +1,67 @@
+---
+title: "Sleep Over Squats"
+format: beamer
+editor: visual
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Outline
+
+1.  **More Sleep , Less Stress**\
+2.  **Early Adults \~ And Stressed**\
+3.  **Does Physical Activity Make A Difference ?**\
+4.  ***Policy Focus: Sleep & Stress \> Gym Memberships***
+
+## MORE SLEEP , LESS STRESS
+
+-   Good Sleep & Low Stress group shows the highest median weight change, close to zero or slightly positive, with relatively tight variation.
+
+```{r sleep-stress-boxplot, out.width="100%"}
+knitr::include_graphics("C:/Users/pmnha/my-new-project/22660348/Question5/Results/Sleep_Stress_Boxplot.png")
+
+
+```
+
+## MORE SLEEP , LESS STRESS
+
+-   Poor Sleep & High Stress group experiences the largest median weight loss and greatest variability, with several extreme outliers below -30.
+
+-   Weight change tends to be worse (more negative) with high stress regardless of sleep quality, highlighting stress as a key factor in weight loss.
+
+## EARLY ADULTS \~ AND STRESSED 
+
+-   Early Career Professionals - 30-39 suffer the most severe weight loss (-7.7 lbs) with poor sleep – **5x worse** than their well-rested peers (+1.6 lbs).
+-   High stress causes greater weight loss (-9.1 lbs in 30-39 group) than any exercise benefit, with effects compounding when combined with poor sleep (-10+ lbs).
+-   Women maintain more stable weight (-1.8 to -3.5 lbs changes) while men show extreme drops, especially teen males (-5.3 lbs vs. -1.8 lbs for females).
+
+## EARLY ADULTS \~ AND STRESSED 
+
+```{r sleep-risk-pivot ,message=FALSE, warning=FALSE }
+library(readr)
+library(knitr)
+weight_summary <- read_csv("C:/Users/pmnha/my-new-project/22660348/Question5/Results/Weight_Change_Summary.csv")
+kable(weight_summary, caption = "Weight Change Summary")
+sleep_pivot <- read_csv("C:/Users/pmnha/my-new-project/22660348/Question5/Results/Sleep_Risk_Pivot.csv")
+kable(sleep_pivot, caption = "Sleep Risk Pivot Summary")
+stress_pivot <- read_csv("C:/Users/pmnha/my-new-project/22660348/Question5/Results/Stress_Risk_Pivot.csv")
+kable(sleep_pivot, caption = "Stress Risk Pivot Summary")
+```
+
+## DOES PHYSICAL ACTIVITY MAKE A DIFFERENCE ?
+
+-   Physical activity shows *no significant effects*
+-   Sleep-stress model explains **45.5%** of weight variation (R²=0.455)
+-   Low stress provides **+5.8 lbs** protection (p\<0.05)
+
+## DOES PHYSICAL ACTIVITY MAKE A DIFFERENCE ?
+
+```{r regression-txt-output, echo=FALSE, results='asis', message=FALSE, warning=FALSE}
+cat(readLines("C:/Users/pmnha/my-new-project/22660348/Question5/Results/Regression_Models.txt"), sep = "\n")
+```
+
+## ***Policy Focus: Sleep & Stress \> Gym Memberships***
+
+-   Redirect 90% of corporate wellness budgets from gyms to sleep/stress interventions for employees aged 30-39, where data shows 10x greater ROI potential.

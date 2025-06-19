@@ -1,5 +1,5 @@
 ---
-title: "Exam"
+title: "Exam : Data Science Questions 1 - 5 Analysis"
 author: "Precious Nhamo"
 date: "`r Sys.Date()`"
 output: pdf_document
@@ -9,7 +9,6 @@ output: pdf_document
 
 # Set knitting root directory
 knitr::opts_knit$set(root.dir = "C:/Users/pmnha/my-new-project/22660348/Essay")
-
 # Load libraries, set chunk options
 knitr::opts_chunk$set(
   echo = FALSE,       # Hide code
