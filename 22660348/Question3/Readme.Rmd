@@ -1,5 +1,20 @@
 # Question3
 
-This folder contains Code, Data, and Results for this question.
+Analysis of Netflix data 
 
-Edit this README to explain your logic and contributions.
+
+
+#Data cleaning 
+run_netflix_analysis()
+
+#IMB Rating 
+results <- main()
+
+#content duration 
+run_netflix_visualizations()
+
+#country ratings 
+run_netflix_country_analysis()
+
+#movie genre 
+run_genre_country_analysis()

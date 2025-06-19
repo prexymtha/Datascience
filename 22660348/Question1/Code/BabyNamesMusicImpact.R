@@ -1,8 +1,18 @@
 
-
-library(dplyr)
-library(stringr)
-library(ggplot2)
+baby_music <- function() {
+  if (!require("pacman")) install.packages("pacman")
+  pacman::p_load(
+    dplyr,
+    stringr,
+    ggplot2,
+  ggtext
+  )
+  
+  
+  baby_names<- readRDS("C:/Users/pmnha/my-new-project/22660348/Question1/Data/Baby_Names_By_US_State.rds")
+  charts <- readRDS("C:/Users/pmnha/my-new-project/22660348/Question1/Data/charts.rds")
+  hbo_credits <- readRDS("C:/Users/pmnha/my-new-project/22660348/Question1/Data/HBO_credits.rds")
+  hbo_titles <- readRDS("C:/Users/pmnha/my-new-project/22660348/Question1/Data/HBO_titles.rds")
 
 # Step 1: Extract first names from artists and assign release year from chart date
 artist_firstnames <- charts %>%
@@ -39,8 +49,7 @@ music_impact <- artist_firstnames %>%
   filter(pre_release < 100, post_release > 100) %>%  # Only meaningful spikes
   arrange(desc(impact_ratio))
 
-library(ggplot2)
-library(ggtext)
+
 
 # Prepare top 15 impactful names
 top_artists <- music_impact %>%
@@ -161,4 +170,5 @@ ggsave(
   height = 6,
   dpi = 300
 )
-
+}
+baby_music()

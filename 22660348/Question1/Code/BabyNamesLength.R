@@ -1,8 +1,10 @@
 #Load all libraries 
+baby_length <- function () {
+  
 
-library(readr)
-library(dplyr)
-library(ggplot2)
+  if (!require("pacman")) install.packages("pacman")
+  pacman::p_load(readr, dplyr, ggplot2)
+  
 
 #Load dataset
 
@@ -132,4 +134,6 @@ ggsave(
 
 #Y-O-Y changes 
 
+}
+baby_length()
 

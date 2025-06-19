@@ -1,360 +1,289 @@
-# Load necessary libraries
-library(readr)
-library(dplyr)
-library(ggplot2)
-library(scales)
-library(lubridate)
-library(stringi)
-
-# Read in the datasets
-# For coldplay and metalica use explicit encoding because of embeded characters 
-spotify <- readRDS("C:/Users/pmnha/my-new-project/22660348/Question2/Data/Broader_Spotify_Info.rds")
-charts <- readRDS("C:/Users/pmnha/my-new-project/22660348/Question2/Data/charts.rds")
-coldplay <- read_csv("Question2/Data/Coldplay.csv",locale = locale(encoding = "UTF-8"))
-metallica <- read_csv("Question2/Data/metallica.csv",locale = locale(encoding = "UTF-8"))
-
-
-# Filter Spotify data for Coldplay and Metallica
-df <- spotify %>% 
-  filter(artist %in% c("Coldplay", "Metallica"))
-
-artist_debuts <- data.frame(
-  artist = c("Coldplay", "Metallica"),
-  debut_date = as.Date(c("1996-01-01", "1981-01-01"))
+# ------------------------- LOAD LIBRARIES -------------------------
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(
+  readr, dplyr, ggplot2, scales, lubridate, stringi, tidyr, stringr
 )
 
-# 1. Filter for Coldplay and Metallica
-charts_df <- charts %>%
-  filter(artist %in% c("Coldplay", "Metallica")) %>%
-  mutate(date = as.Date(date))
-
-charts_df <- charts_df %>%
-  mutate(date = as.Date(date)) %>%
-  inner_join(artist_debuts, by = "artist")
-
-# 3. Calculate weeks and years since debut
-charts_df <- charts_df %>%
-  group_by(artist, song) %>%
-  summarize(
-    first_chart_date = min(date),
-    debut_date = first(debut_date),
-    .groups = "drop"
-  ) %>%
-  mutate(
-    weeks_since_debut = as.integer((first_chart_date - debut_date) / 7),
-    years_since_debut = weeks_since_debut / 52.18  # More accurate year conversion
-  ) %>%
-  arrange(artist, years_since_debut) %>%
-  group_by(artist) %>%
-  mutate(cumulative_unique_songs = row_number()) %>%
-  ungroup()
-
-
-# 4. Plot cumulative unique songs vs. years since debut
-# 1. Define color palette manually
-artist_colors <- c("Coldplay" = "#1f77b4", "Metallica" = "gray60")  # Blue for Cold play, gray for Metallica
-
-# 2. Plot with highlight
-uniquesongs <- ggplot(charts_df, aes(x = years_since_debut, y = cumulative_unique_songs, group = artist)) +
-  
-  # Shaded rectangle for first 10 years
-  annotate("rect", xmin = 0, xmax = 10, ymin = 0, ymax = Inf, fill = "lightblue", alpha = 0.15) +
-  
-  # Line and points
-  geom_line(aes(color = artist), size = 1) +
-  geom_point(aes(color = artist), size = 2) +
-  
-  # Manual colors
-  scale_color_manual(values = artist_colors) +
-  
-  # Axes
-  scale_x_continuous(breaks = seq(0, 45, 5), expand = expansion(mult = c(0, 0.05))) +
-  scale_y_continuous(breaks = pretty_breaks()) +
-  
-  # Labels
-  labs(
-    title = "Cumulative Unique Songs Charted: Coldplay vs Metallica",
-    subtitle = "First 10 years: Coldplay charted 5 songs, Metallica only 1 — Coldplay outpaced early.",
-    x = "Years Since Debut",
-    y = "Cumulative Unique Songs on Chart",
-    color = "Artist"
-  ) +
-  
-  # Theme styling
-  theme_minimal(base_size = 14) +
-  theme(
-    plot.title = element_text(face = "bold", size = 18),
-    plot.subtitle = element_text(size = 13, margin = margin(b = 10)),
-    legend.position = "top",
-    axis.text.x = element_text(angle = 45, hjust = 1),
-    panel.grid.minor = element_blank()
+# ------------------------- MODULE 1: Data Loading -------------------------
+load_data <- function() {
+  list(
+    spotify   = readRDS("C:/Users/pmnha/my-new-project/22660348/Question2/Data/Broader_Spotify_Info.rds"),
+    charts    = readRDS("C:/Users/pmnha/my-new-project/22660348/Question2/Data/charts.rds"),
+    coldplay  = read_csv("Question2/Data/Coldplay.csv", locale = locale(encoding = "UTF-8")),
+    metallica = read_csv("Question2/Data/metallica.csv", locale = locale(encoding = "UTF-8"))
   )
+}
 
-#save plot
-ggsave(
-  filename = "uniquesongs.png",
-  plot = uniquesongs,
-  path = "C:/Users/pmnha/my-new-project/22660348/Question2/Results",
-  width = 10,        # adjust as needed
-  height = 6,        # adjust as needed
-  dpi = 300          # for high-quality output
-)
+# ------------------------- MODULE 2: Data Cleaning -------------------------
+clean_band_data <- function(df, band_name, name_col = "name", date_col = "release_date") {
+  df %>%
+    mutate(
+      name = stri_enc_toutf8(iconv(.data[[name_col]], to = "UTF-8", sub = "?")),
+      year = year(.data[[date_col]]),
+      band = band_name
+    ) %>%
+    filter(!str_detect(tolower(name), "live|demo|concert|unplugged"))
+}
 
+# ------------------------- MODULE 3: Spotify Filter -------------------------
+filter_spotify <- function(df) {
+  df %>%
+    filter(artist %in% c("Coldplay", "Metallica")) %>%
+    mutate(name = stri_enc_toutf8(name))
+}
 
-# ========================================================================================================
-# Step 1: Filter for direct competition years (1996 onward)
-charts_competition <- charts %>%
-  filter(artist %in% c("Coldplay", "Metallica")) %>%
-  mutate(date = as.Date(date)) %>%
-  filter(year(date) >= 1996) %>%
-  group_by(artist, song) %>%
-  slice_min(date, n = 1) %>%  # First appearance of each song after 1996
-  ungroup() %>%
-  arrange(artist, date) %>%
-  group_by(artist) %>%
-  mutate(
-    cumulative_songs = row_number(),
-    years_since_1996 = year(date) - 1996
-  ) %>%
-  ungroup()
-
-directcompetition <- ggplot(charts_competition, aes(x = years_since_1996, y = cumulative_songs, color = artist)) +
-  # Highlight Coldplay's first 10 years post-1996 (1996–2006)
-  annotate("rect", xmin = 0, xmax = 10, ymin = 0, ymax = Inf,
-           fill = "lightblue", alpha = 0.2) +
+# ------------------------- MODULE 4: Prepare Audio Features -------------------------
+prepare_audio_features <- function(coldplay, metallica) {
+  coldplay_clean <- coldplay %>% rename(album = album_name)
+  metallica_clean <- metallica %>% rename(duration = duration_ms)
   
-  geom_line(linewidth = 1.2) +
-  geom_point(size = 2.5) +
+  bind_rows(coldplay_clean, metallica_clean)
+}
+
+# ------------------------- MODULE 5: Tempo Plot -------------------------
+plot_tempo_evolution <- function(audio_features) {
+  ggplot(audio_features, aes(x = year, y = tempo, color = band)) +
+    geom_smooth(method = "loess", se = FALSE) +
+    labs(
+      title = "Tempo Evolution: Coldplay vs Metallica (Studio Only)",
+      x = "Release Year", y = "Tempo (BPM)", color = "Band"
+    ) +
+    theme_minimal()
+}
+
+# ------------------------- MODULE 6: Feature Trends Plot -------------------------
+plot_audio_features <- function(audio_features) {
+  features <- c("danceability", "acousticness", "energy", "instrumentalness",
+                "liveness", "loudness", "speechiness", "tempo", "valence")
   
-  scale_color_manual(values = c("Coldplay" = "#1f77b4", "Metallica" = "gray50")) +
+  audio_features %>%
+    select(year, band, all_of(features)) %>%
+    pivot_longer(cols = all_of(features), names_to = "feature", values_to = "value") %>%
+    ggplot(aes(x = year, y = value, color = band)) +
+    geom_smooth(se = FALSE, linewidth = 1.1) +
+    facet_wrap(~ feature, scales = "free_y", ncol = 3) +
+    labs(
+      title = "Musical Audio Features Over Time by Band",
+      subtitle = "Smoothed trends for key audio features from Spotify data",
+      x = "Year", y = "Value", color = "Band"
+    ) +
+    theme_minimal(base_size = 14) +
+    theme(legend.position = "top")
+}
+
+# ------------------------- MODULE 7: Chart Summary -------------------------
+summarize_charts <- function(charts) {
+  charts %>%
+    mutate(year = year(date)) %>%
+    group_by(year) %>%
+    summarise(
+      unique_songs = n_distinct(song),
+      avg_peak_rank = mean(`peak-rank`, na.rm = TRUE),
+      .groups = "drop"
+    ) %>%
+    filter(year >= 1980)
+}
+
+# ------------------------- MODULE 8: Industry Trends Plot -------------------------
+plot_industry_trends <- function(chart_summary) {
+  ggplot(chart_summary, aes(x = year, y = unique_songs)) +
+    geom_line(linewidth = 1.2, color = "steelblue") +
+    annotate("point", x = c(1986, 1991, 2014), y = c(495, 472, 461),
+             size = 4, shape = 21, fill = c("#ff7f0e", "#1f77b4", "#2ca02c")) +
+    annotate("text", x = c(1991, 2000, 2014), y = c(700, 700, 700),
+             label = c(
+               paste0("Metallica's Peak (1991)\n", 474, " songs/year"),
+               paste0("Coldplay Debut (2000)\n", 410, " songs/year"),
+               paste0("Joint Performance (2014)\n", 461, " songs/year")
+             ),
+             hjust = -0.05, size = 3.5) +
+    annotate("rect", xmin = 2015, xmax = 2021, ymin = 0, ymax = 800,
+             fill = "gray90", alpha = 0.3) +
+    annotate("text", x = 2018, y = 100, label = "Streaming Era\n(2015+)", size = 3.5) +
+    scale_x_continuous(breaks = seq(1980, 2020, 5)) +
+    scale_y_continuous(limits = c(0, 800)) +
+    labs(
+      title = "Billboard Hot 100 Trends Show Two Distinct Industry Eras",
+      subtitle = paste("Metallica peaked during the album era (low turnover), while Coldplay adapted",
+                       "to increasing competition\nPost-2015 streaming explosion dramatically changed chart dynamics"),
+      x = "Year", y = "Unique Songs Charted Annually",
+      caption = "Data shows total unique songs appearing on Hot 100 each year\nPoints mark key career moments for each artist"
+    ) +
+    theme_minimal() +
+    theme(
+      plot.title = element_text(face = "bold", size = 14),
+      plot.subtitle = element_text(size = 11, lineheight = 1.1),
+      panel.grid.minor = element_blank()
+    )
+}
+
+# ------------------------- MAIN FUNCTIONAL PIPELINE -------------------------
+run_analysis <- function() {
+  load_data() %>%
+    (\(data) {
+      coldplay <- clean_band_data(data$coldplay, "Coldplay")
+      metallica <- clean_band_data(data$metallica, "Metallica")
+      audio_features <- prepare_audio_features(coldplay, metallica)
+      chart_summary <- summarize_charts(data$charts)
+      
+      list(
+        tempo_plot    = plot_tempo_evolution(audio_features),
+        features_plot = plot_audio_features(audio_features),
+        trends_plot   = plot_industry_trends(chart_summary)
+      )
+    })()
+}
+
+# ------------------------- EXECUTE AND DISPLAY -------------------------
+plots <- run_analysis()
+print(plots$tempo_plot)
+print(plots$features_plot)
+print(plots$trends_plot)
+
+# -------------------- FUNCTION 2 FOR MUSIC-------------------- #
+# This function generates a full suite of visual analytics for Coldplay vs Metallica
+# Includes cumulative charting, audio feature trends, top album popularity, and industry trends
+
+run_artist_comparison_analysis <- function() {
+  # Load required packages using pacman
+  if (!require("pacman")) install.packages("pacman")
+  pacman::p_load(readr, dplyr, ggplot2, scales, lubridate, stringi, tidyr, stringr)
   
-  labs(
-    title = "Coldplay vs. Metallica: Songs Charted During Direct Competition (1996+)",
-    subtitle = "Coldplay enters the scene and quickly builds momentum vs. veteran Metallica",
-    x = "Years Since 1996",
-    y = "Cumulative Unique Songs on Chart",
-    color = "Artist"
-  ) +
+  # Load data
+  spotify <- readRDS("C:/Users/pmnha/my-new-project/22660348/Question2/Data/Broader_Spotify_Info.rds")
+  charts <- readRDS("C:/Users/pmnha/my-new-project/22660348/Question2/Data/charts.rds")
+  coldplay <- read_csv("Question2/Data/Coldplay.csv", locale = locale(encoding = "UTF-8"))
+  metallica <- read_csv("Question2/Data/metallica.csv", locale = locale(encoding = "UTF-8"))
   
-  theme_minimal(base_size = 14) +
-  theme(
-    plot.title = element_text(face = "bold", size = 18),
-    plot.subtitle = element_text(size = 12, color = "gray40"),
-    legend.position = "top",
-    panel.grid.minor = element_blank()
-  ) +
+  # Clean and tag audio feature data
+  clean_band_data <- function(df, band_name, date_col, name_col) {
+    df %>%
+      mutate(
+        name = stri_enc_toutf8(iconv(.data[[name_col]], to = "UTF-8", sub = "?")),
+        year = year(.data[[date_col]]),
+        band = band_name
+      ) %>%
+      filter(!str_detect(tolower(name), "live|demo|concert|unplugged"))
+  }
   
-  scale_x_continuous(breaks = seq(0, 30, 5), limits = c(0, NA)) +
-  scale_y_continuous(breaks = pretty_breaks())
-
-#save
-ggsave(
-  filename = "directcompetition.png",
-  plot = directcompetition,
-  path = "C:/Users/pmnha/my-new-project/22660348/Question2/Results",
-  width = 10,        # adjust as needed
-  height = 6,        # adjust as needed
-  dpi = 300          # for high-quality output
-)
-
-
-# ========================================================================================================
-# Step 1: Calculate average popularity per album per band
-top_albums <- band_audio_features %>%
-  group_by(band, album) %>%
-  summarise(avg_popularity = mean(popularity, na.rm = TRUE)) %>%
-  arrange(band, desc(avg_popularity)) %>%
-  group_by(band) %>%
-  slice_head(n = 5) %>%  # top 5 albums per band
-  ungroup()
-
-# Step 2: Filter original data to keep only top albums
-band_audio_top_albums <- band_audio_features %>%
-  filter(album %in% top_albums$album & band %in% top_albums$band)
-
-# Step 3: Plot boxplot
-popalbums <- ggplot(band_audio_top_albums, aes(x = album, y = popularity, fill = band)) +
-  geom_boxplot(alpha = 0.7, outlier.size = 1) +
-  facet_wrap(~ band, scales = "free_x") +  # Separate plot panels by band
-  labs(
-    title = "Popularity Distribution by Top 5 Albums",
-    subtitle = "Boxplot of Spotify popularity scores by album for Coldplay and Metallica",
-    x = "Album",
-    y = "Popularity",
-    fill = "Band"
-  ) +
-  theme_minimal(base_size = 14) +
-  theme(
-    axis.text.x = element_text(angle = 45, hjust = 1, size = 8),
-    legend.position = "none",
-    panel.grid.minor = element_blank()
+  coldplay_clean <- clean_band_data(coldplay, "Coldplay", "release_date", "name") %>%
+    rename(album = album_name)
+  metallica_clean <- clean_band_data(metallica, "Metallica", "release_date", "name") %>%
+    rename(duration = duration_ms)
+  
+  band_audio_features <- bind_rows(coldplay_clean, metallica_clean)
+  
+  # ----------- Plot 1: Tempo Over Time ----------- #
+  ggsave(
+    filename = "audioeffects.png",
+    plot = ggplot(band_audio_features, aes(x = year, y = tempo, color = band)) +
+      geom_smooth(method = "loess", se = FALSE) +
+      labs(
+        title = "Tempo Evolution: Coldplay vs Metallica (Studio Only)",
+        x = "Release Year", y = "Tempo (BPM)", color = "Band"
+      ) +
+      theme_minimal(),
+    path = "C:/Users/pmnha/my-new-project/22660348/Question2/Results",
+    width = 10, height = 6, dpi = 300
   )
-
-#Save 
-ggsave(
-  filename = "popalbums.png",
-  plot = popalbums,
-  path = "C:/Users/pmnha/my-new-project/22660348/Question2/Results",
-  width = 10,        # adjust as needed
-  height = 6,        # adjust as needed
-  dpi = 300          # for high-quality output
-)
-
-# Clean Coldplay & Metallica: remove live or demo tracks
-coldplay_clean <- coldplay %>%
-  mutate(name = stri_enc_toutf8(name)) %>%  # Ensure UTF-8 encoding
-  filter(!str_detect(tolower(name), "live|demo|concert|unplugged"))
-
-metallica_clean <- metallica %>%
-  mutate(name = iconv(name, to = "UTF-8", sub = "?")) %>%  # Replace invalid characters
-  mutate(name = stri_enc_toutf8(name, validate = TRUE)) %>%  # Ensure UTF-8 encoding
-  filter(!str_detect(tolower(name), "live|demo|concert|unplugged"))
-
-# Filter Spotify data for Coldplay and Metallica
-df <- spotify %>% 
-  filter(artist %in% c("Coldplay", "Metallica")) %>%
-  mutate(name = stri_enc_toutf8(name))  # Ensure UTF-8 encoding
-
-coldplay_clean <- coldplay_clean %>%
-  mutate(year = year(release_date), band = "Coldplay") %>%
-  rename(album = album_name)
-
-metallica_clean <- metallica_clean %>%
-  mutate(year = year(release_date), band = "Metallica") %>%
-  rename(duration = duration_ms)
-
-band_audio_features <- bind_rows(coldplay_clean, metallica_clean)
-
-# ===========================================================================================================
-audioeffects <- ggplot(band_audio_features, aes(x = year, y = tempo, color = band)) +
-  geom_smooth(method = "loess", se = FALSE) +
-  labs(
-    title = "Tempo Evolution: Coldplay vs Metallica (Studio Only)",
-    x = "Release Year", y = "Tempo (BPM)", color = "Band"
-  ) +
-  theme_minimal()
-
-ggsave(
-  filename = "audioeffects.png",
-  plot = audioeffects,
-  path = "C:/Users/pmnha/my-new-project/22660348/Question2/Results",
-  width = 10,        # adjust as needed
-  height = 6,        # adjust as needed
-  dpi = 300          # for high-quality output
-)
-
-
-# ==========================================================================================================
-band_audio_features_long <- band_audio_features %>%
-  select(year, band, danceability, acousticness, valence) %>%
-  pivot_longer(cols = c(danceability, acousticness, valence), names_to = "feature")
-
-# Pivot to long format all features you listed
-features_to_plot <- c("danceability", "acousticness", "energy", "instrumentalness",
-                      "liveness", "loudness", "speechiness", "tempo", "valence")
-
-band_audio_features_long <- band_audio_features %>%
-  select(year, band, all_of(features_to_plot)) %>%
-  pivot_longer(cols = all_of(features_to_plot), names_to = "feature", values_to = "value")
-
-extraeffects <- ggplot(band_audio_features_long, aes(x = year, y = value, color = band)) +
-  geom_smooth(se = FALSE, linewidth = 1.1) +
-  facet_wrap(~ feature, scales = "free_y", ncol = 3) +
-  labs(
-    title = "Musical Audio Features Over Time by Band",
-    subtitle = "Smoothed trends for key audio features from Spotify data",
-    x = "Year",
-    y = "Value",
-    color = "Band"
-  ) +
-  theme_minimal(base_size = 14) +
-  theme(legend.position = "top")
-
-#save
-ggsave(
-  filename = "extraeffects.png",
-  plot = extraeffects,
-  path = "C:/Users/pmnha/my-new-project/22660348/Question2/Results",
-  width = 10,        # adjust as needed
-  height = 6,        # adjust as needed
-  dpi = 300          # for high-quality output
-)
-
-
-# =========================================================================================================
-# =========================================================================================================
-# Calculate annual metrics from Billboard Hot 100 data
-charts_summary <- charts %>%
-  # Extract year from date column
-  mutate(year = year(date)) %>%
   
-  # Group by year to calculate annual statistics
-  group_by(year) %>%
-  summarise(
-    # Count of unique songs that charted each year (measures industry competitiveness)
-    unique_songs = n_distinct(song),
-    
-    # Average peak position of songs (measures how high typical songs climb)
-    avg_peak_rank = mean(`peak-rank`, na.rm = TRUE)
-  ) %>%
+  # ----------- Plot 2: Full Audio Feature Trends ----------- #
+  features <- c("danceability", "acousticness", "energy", "instrumentalness",
+                "liveness", "loudness", "speechiness", "tempo", "valence")
   
-  # Focus on modern era (1980 onward) for relevant comparison
-  filter(year >= 1980) 
-
-# =========================================================================================================
-# VISUALIZATION: INDUSTRY TRENDS VS. ARTIST MILESTONES
-# =========================================================================================================
-
-# Create visualization with proper context
-industrytrend  <- ggplot(charts_summary, aes(x = year, y = unique_songs)) +
-  geom_line(linewidth = 1.2, color = "steelblue") +
+  band_audio_features_long <- band_audio_features %>%
+    select(year, band, all_of(features)) %>%
+    pivot_longer(cols = all_of(features), names_to = "feature", values_to = "value")
   
-  # Corrected artist milestones with exact values
-  annotate("point", x = c(1986, 1991, 2014), 
-           y = c(495, 472, 461),
-           size = 4, shape = 21, fill = c("#ff7f0e", "#1f77b4", "#2ca02c")) +
-  
-  # Annotations with exact numbers
-  annotate("text", x = c(1991, 2000, 2014), y = c(700, 700, 700),
-           label = c(paste0("Metallica's Peak (1991)\n", 474, " songs/year"),
-                     paste0("Coldplay Debut (2000)\n", 410, " songs/year"),
-                     paste0("Joint Performance (2014)\n", 461, " songs/year")),
-           hjust = -0.05, size = 3.5) +
-  
-  # Highlight streaming era
-  annotate("rect", xmin = 2015, xmax = 2021, ymin = 0, ymax = 800,
-           fill = "gray90", alpha = 0.3) +
-  annotate("text", x = 2018, y = 100, 
-           label = "Streaming Era\n(2015+)", size = 3.5) +
-  
-  # Labels and scales
-  scale_x_continuous(breaks = seq(1980, 2020, 5)) +
-  scale_y_continuous(limits = c(0, 800)) +
-  labs(
-    title = "Billboard Hot 100 Trends Show Two Distinct Industry Eras",
-    subtitle = paste("Metallica peaked during the album era (low turnover), while Coldplay adapted",
-                     "to increasing competition\nPost-2015 streaming explosion dramatically changed chart dynamics"),
-    x = "Year", 
-    y = "Unique Songs Charted Annually",
-    caption = "Data shows total unique songs appearing on Hot 100 each year\nPoints mark key career moments for each artist"
-  ) +
-  
-  theme_minimal() +
-  theme(
-    plot.title = element_text(face = "bold", size = 14),
-    plot.subtitle = element_text(size = 11, lineheight = 1.1),
-    panel.grid.minor = element_blank()
+  ggsave(
+    filename = "extraeffects.png",
+    plot = ggplot(band_audio_features_long, aes(x = year, y = value, color = band)) +
+      geom_smooth(se = FALSE, linewidth = 1.1) +
+      facet_wrap(~ feature, scales = "free_y", ncol = 3) +
+      labs(
+        title = "Musical Audio Features Over Time by Band",
+        subtitle = "Smoothed trends for key audio features from Spotify data",
+        x = "Year", y = "Value", color = "Band"
+      ) +
+      theme_minimal(base_size = 14) +
+      theme(legend.position = "top"),
+    path = "C:/Users/pmnha/my-new-project/22660348/Question2/Results",
+    width = 10, height = 6, dpi = 300
   )
+  
+  # ----------- Plot 3: Top Album Popularity Boxplot ----------- #
+  top_albums <- band_audio_features %>%
+    group_by(band, album) %>%
+    summarise(avg_popularity = mean(popularity, na.rm = TRUE), .groups = "drop") %>%
+    arrange(band, desc(avg_popularity)) %>%
+    group_by(band) %>% slice_head(n = 5) %>% ungroup()
+  
+  band_audio_top <- band_audio_features %>%
+    filter(album %in% top_albums$album & band %in% top_albums$band)
+  
+  ggsave(
+    filename = "popalbums.png",
+    plot = ggplot(band_audio_top, aes(x = album, y = popularity, fill = band)) +
+      geom_boxplot(alpha = 0.7, outlier.size = 1) +
+      facet_wrap(~ band, scales = "free_x") +
+      labs(
+        title = "Popularity Distribution by Top 5 Albums",
+        subtitle = "Boxplot of Spotify popularity scores by album for Coldplay and Metallica",
+        x = "Album", y = "Popularity", fill = "Band"
+      ) +
+      theme_minimal(base_size = 14) +
+      theme(
+        axis.text.x = element_text(angle = 45, hjust = 1, size = 8),
+        legend.position = "none",
+        panel.grid.minor = element_blank()
+      ),
+    path = "C:/Users/pmnha/my-new-project/22660348/Question2/Results",
+    width = 10, height = 6, dpi = 300
+  )
+  
+  # ----------- Plot 4: Industry Trend and Milestones ----------- #
+  charts_summary <- charts %>%
+    mutate(year = year(date)) %>%
+    group_by(year) %>%
+    summarise(unique_songs = n_distinct(song), avg_peak_rank = mean(`peak-rank`, na.rm = TRUE), .groups = "drop") %>%
+    filter(year >= 1980)
+  
+  ggsave(
+    filename = "industrytrend.png",
+    plot = ggplot(charts_summary, aes(x = year, y = unique_songs)) +
+      geom_line(linewidth = 1.2, color = "steelblue") +
+      annotate("point", x = c(1986, 1991, 2014), y = c(495, 472, 461),
+               size = 4, shape = 21, fill = c("#ff7f0e", "#1f77b4", "#2ca02c")) +
+      annotate("text", x = c(1991, 2000, 2014), y = c(700, 700, 700),
+               label = c("Metallica's Peak (1991)\n474 songs/year",
+                         "Coldplay Debut (2000)\n410 songs/year",
+                         "Joint Performance (2014)\n461 songs/year"),
+               hjust = -0.05, size = 3.5) +
+      annotate("rect", xmin = 2015, xmax = 2021, ymin = 0, ymax = 800,
+               fill = "gray90", alpha = 0.3) +
+      annotate("text", x = 2018, y = 100, label = "Streaming Era\n(2015+)", size = 3.5) +
+      scale_x_continuous(breaks = seq(1980, 2020, 5)) +
+      scale_y_continuous(limits = c(0, 800)) +
+      labs(
+        title = "Billboard Hot 100 Trends Show Two Distinct Industry Eras",
+        subtitle = "Coldplay adapted to streaming competition; Metallica thrived in album era",
+        x = "Year", y = "Unique Songs Charted Annually",
+        caption = "Data: Billboard Hot 100"
+      ) +
+      theme_minimal() +
+      theme(
+        plot.title = element_text(face = "bold", size = 14),
+        plot.subtitle = element_text(size = 11, lineheight = 1.1),
+        panel.grid.minor = element_blank()
+      ),
+    path = "C:/Users/pmnha/my-new-project/22660348/Question2/Results",
+    width = 10, height = 6, dpi = 300
+  )
+}
 
-#save
-ggsave(
-  filename = "industrytrend.png",
-  plot = industrytrend,
-  path = "C:/Users/pmnha/my-new-project/22660348/Question2/Results",
-  width = 10,        # adjust as needed
-  height = 6,        # adjust as needed
-  dpi = 300          # for high-quality output
-)
+# Call the function to generate all outputs
+run_artist_comparison_analysis()
+
 
 
 

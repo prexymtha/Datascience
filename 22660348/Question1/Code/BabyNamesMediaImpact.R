@@ -1,12 +1,17 @@
-library(readr)
-library(dplyr)
-library(stringr)
-library(ggplot2)
-library(scales)
-library(broom)
-library(forcats)
-library(lubridate)
-library(ggrepel)
+baby_media <- function(){ 
+
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(
+  readr,
+  dplyr,
+  stringr,
+  ggplot2,
+  scales,
+  broom,
+  forcats,
+  lubridate,
+  ggrepel
+)
 
 #Load dataset
 
@@ -348,3 +353,7 @@ ggsave(
   height = 6,
   dpi = 300
 )
+
+}
+
+baby_media()

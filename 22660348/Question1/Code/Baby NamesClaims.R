@@ -1,10 +1,24 @@
 
-#Load all libraries 
+baby_claims <- function(){
+  
 
-library(readr)
-library(dplyr)
-library(ggplot2)
+# Install pacman if not already installed
+if (!require("pacman")) install.packages("pacman")
 
+# Load all packages using pacman
+pacman::p_load(
+  # Data manipulation
+  dplyr, tidyr, readr, readxl,
+  
+  # Visualization
+  ggplot2, ggrepel, scales, viridis,
+  
+  # Spatial/mapping
+  rnaturalearth, rnaturalearthdata, sf,
+  
+  # Other utilities
+  stringr, purrr
+)
 #Load dataset
 
 baby_names<- readRDS("C:/Users/pmnha/my-new-project/22660348/Question1/Data/Baby_Names_By_US_State.rds")
@@ -388,5 +402,7 @@ ggsave(
   height = 6,
   dpi = 300
 ) 
+}
 
+baby_claims()
 
